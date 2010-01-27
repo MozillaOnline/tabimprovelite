@@ -26,17 +26,19 @@ window.addEventListener("load", function(event){
 	    catch (ex) {}
 	}, false);
 
-	eval("gBrowser.addTab = " + gBrowser.addTab.toString().replace(
-	    'if (t.previousSibling.selected)',
-	    'if (tabimprovelite_tabsopenrelative_ignoreNext) { \
-			tabimprovelite_tabsopenrelative_ignoreNext = false; \
-	    } \
-	    else if (!arguments.callee.caller || !arguments.callee.caller.caller || arguments.callee.caller.caller.name != "BrowserOpenTab" || getBoolPref("extensions.tabimprovelite.includeNewTabs", false)) { \
-	        this.moveTabTo(t, this.mCurrentTab._tPos + tabimprovelite_tabsopenrelative_nextTab); \
-	        tabimprovelite_tabsopenrelative_nextTab++; \
-	    } \
-	    if (t.previousSibling.selected)'
-	));
+	if (Application.version < "3.6") {
+		eval("gBrowser.addTab = " + gBrowser.addTab.toString().replace(
+			'if (t.previousSibling.selected)',
+			'if (tabimprovelite_tabsopenrelative_ignoreNext) { \
+				tabimprovelite_tabsopenrelative_ignoreNext = false; \
+			} \
+			else if (!arguments.callee.caller || !arguments.callee.caller.caller || arguments.callee.caller.caller.name != "BrowserOpenTab" || getBoolPref("extensions.tabimprovelite.includeNewTabs", false)) { \
+				this.moveTabTo(t, this.mCurrentTab._tPos + tabimprovelite_tabsopenrelative_nextTab); \
+				tabimprovelite_tabsopenrelative_nextTab++; \
+			} \
+			if (t.previousSibling.selected)'
+		));
+	}
 //	alert(gBrowser.addTab.toString());
 	
 	/* Don't open links from external applications relatively */
