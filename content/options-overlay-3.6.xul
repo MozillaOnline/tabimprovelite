@@ -11,7 +11,6 @@
 				<preference id="openTabInBackground" name="browser.tabs.loadDivertedInBackground" type="bool"/>
 			</preferences>
 			<groupbox>
-				<checkbox id="checkIncludeNewTabs" preference="includeNewTabs" label="&checkIncludeNewTabs.label;" accesskey="&checkIncludeNewTabs.accesskey;"/>
 				<checkbox id="checkOpenUrlInTab" preference="openUrlInTab" label="&checkOpenUrlInTab.label;" accesskey="&checkOpenUrlInTab.accesskey;"/>
 				<checkbox id="checkOpenSearchInTab" preference="openSearchInTab" label="&checkOpenSearchInTab.label;" accesskey="&checkOpenSearchInTab.accesskey;"/>
 				<checkbox id="checkOpenTabInBackground" preference="openTabInBackground" label="&checkOpenTabInBackground.label;" accesskey="&checkOpenTabInBackground.accesskey;"/>
