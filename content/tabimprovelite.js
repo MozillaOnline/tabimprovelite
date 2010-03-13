@@ -5,7 +5,14 @@ window.addEventListener("load", function(event){
 		var node = event.originalTarget;
 		while (node.localName != "tabbrowser"){
 			if (node.localName == "tab"){
-				gBrowser.removeCurrentTab();
+				if (node.parentNode.childElementCount == 1){
+					if (gBrowser.currentURI.spec != "about:blank"){
+						gBrowser.addTab();
+						gBrowser.removeTab(node);
+					}
+				} else {
+					gBrowser.removeCurrentTab();
+				}
 				return;
 			}
 			node = node.parentNode;
