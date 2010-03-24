@@ -1,6 +1,6 @@
 ﻿<!ENTITY prefwindow.title "标签页管理器选项">
 <!ENTITY pane1.title "标签页管理器">
-<!ENTITY checkIncludeNewTabs.label "在当前标签页旁边打开新建标签页">
+<!ENTITY checkIncludeNewTabs.label "当在新标签页打开链接时，在当前标签页旁边打开新建标签页">
 <!ENTITY checkIncludeNewTabs.accesskey "N">
 <!ENTITY checkOpenUrlInTab.label "默认在新标签页打开地址栏地址，按Alt+Enter输入时在当前页打开(不选则相反)">
 <!ENTITY checkOpenUrlInTab.accesskey "U">
