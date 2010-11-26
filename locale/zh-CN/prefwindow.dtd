@@ -4,7 +4,7 @@
 <!ENTITY checkIncludeNewTabs.accesskey "N">
 <!ENTITY checkOpenUrlInTab.label "默认在新标签页打开地址栏地址，按Alt+Enter输入时在当前页打开(不选则相反)">
 <!ENTITY checkOpenUrlInTab.accesskey "U">
-<!ENTITY checkDblClickCloseTab.label "双及标签页顶部关闭该标签页">
+<!ENTITY checkDblClickCloseTab.label "双击标签页顶部关闭该标签页">
 <!ENTITY checkDblClickCloseTab.accesskey "D">
 <!ENTITY checkOpenSearchInTab.label "在新的标签页打开搜索结果">
 <!ENTITY checkOpenSearchInTab.accesskey "S">
