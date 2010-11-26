@@ -11,7 +11,9 @@ window.addEventListener("load", function(event){
 						gBrowser.removeTab(node);
 					}
 				} else {
-					gBrowser.removeCurrentTab();
+				    if (getBoolPref("extensions.tabimprovelite.dblClickCloseTab", true)) {
+				        gBrowser.removeCurrentTab();
+				    }
 				}
 				return;
 			}
