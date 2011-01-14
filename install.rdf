@@ -15,7 +15,7 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 		<em:contributor>Ben Jones</em:contributor>
 		<em:contributor>Genovese</em:contributor>
 		<em:contributor>zencd</em:contributor>
-		<em:homepageURL>http://www.mozillaonline.com/</em:homepageURL>
+		<em:homepageURL>http://www.firefox.com.cn/</em:homepageURL>
 		<em:optionsURL>chrome://tabimprovelite/content/options.xul</em:optionsURL>
 		<em:iconURL>chrome://tabimprovelite/skin/icon32.png</em:iconURL>
 		
@@ -41,7 +41,7 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 				<em:contributor>Ben Jones</em:contributor>
 				<em:contributor>Genovese</em:contributor>
 				<em:contributor>zencd</em:contributor>
-				<em:homepageURL>http://www.mozillaonline.com/</em:homepageURL>
+				<em:homepageURL>http://www.firefox.com.cn/</em:homepageURL>
 			</Description>
 		</em:localized>
 	</Description>
