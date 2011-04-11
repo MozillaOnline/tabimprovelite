@@ -48,7 +48,7 @@ window.addEventListener("load", function(event){
 			if (t.previousSibling.selected)'
 		));
 	}
-//	alert(gBrowser.addTab.toString());
+	// alert(gBrowser.addTab.toString());
 	
 	/* Don't open links from external applications relatively */
 //	alert(nsBrowserAccess.prototype.openURI.toString());
@@ -61,15 +61,25 @@ window.addEventListener("load", function(event){
 	/* following codes are modified from internet. http://www.firefox.net.cn/forum/viewtopic.php?printertopic=1&t=24895&postdays=0&postorder=asc&start=0&finish_rel=-10000*/
     /*open url in new tab, open in current tab with alt key */
     try { // firefox 3.0.*
-		//alert(BrowserLoadURL.toString());
+		// alert(BrowserLoadURL.toString());
         eval("BrowserLoadURL = " + BrowserLoadURL.toString().replace(
             'aTriggeringEvent && aTriggeringEvent.altKey', '(getBoolPref("extensions.tabimprovelite.openUrlInTab", true) ^ (aTriggeringEvent && aTriggeringEvent.altKey)) && (gBrowser.currentURI.spec!="about:blank" ||gBrowser.webProgress.isLoadingDocument)'));
     }
     catch(e) { // firefox 3.1 and up
 		var urlbar = document.getElementById("urlbar");
-//		alert(urlbar.handleCommand.toString());
-        eval("urlbar.handleCommand = " + urlbar.handleCommand.toString().replace('aTriggeringEvent && aTriggeringEvent.altKey', '(getBoolPref("extensions.tabimprovelite.openUrlInTab", true) ^ (aTriggeringEvent && aTriggeringEvent.altKey)) && (gBrowser.currentURI.spec!="about:blank" ||gBrowser.webProgress.isLoadingDocument)')); 
-    }
+		
+		try{
+			var reader = urlbar.handleCommand.toString();
+			if (reader.search('!isTabEmpty')!=-1){
+				//forfox 4.0
+					eval("urlbar.handleCommand = " + urlbar.handleCommand.toString().replace('aTriggeringEvent &&', '(getBoolPref("extensions.tabimprovelite.openUrlInTab", true) ^ (aTriggeringEvent && aTriggeringEvent.altKey)) && (gBrowser.currentURI.spec!="about:blank" ||gBrowser.webProgress.isLoadingDocument)').replace('aTriggeringEvent.altKey && !isTabEmpty(gBrowser.selectedTab)','')); 
+			}
+			else{
+				//firefox 3.0+
+					eval("urlbar.handleCommand = " + urlbar.handleCommand.toString().replace('aTriggeringEvent && aTriggeringEvent.altKey', '(getBoolPref("extensions.tabimprovelite.openUrlInTab", true) ^ (aTriggeringEvent && aTriggeringEvent.altKey)) && (gBrowser.currentURI.spec!="about:blank" ||gBrowser.webProgress.isLoadingDocument)')); 
+				}
+			}catch(e){}
+	}
 	
 	/* open search in tabs*/
    try {
