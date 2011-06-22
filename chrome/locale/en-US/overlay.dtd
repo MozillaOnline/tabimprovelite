@@ -1,0 +1,8 @@
+<!ENTITY NTabImproveLite.label "Tab Improve Lite">
+<!ENTITY NTabImproveLiteContext.label "Tab Improve Lite">
+<!ENTITY NTabImproveLiteContext.accesskey "N">
+<!ENTITY NTabImproveLiteToolbarButton.label "Tab Improve Lite">
+<!ENTITY NTabImproveLiteToolbarButton.tooltip "Tab Improve Lite!">
+<!ENTITY NTabImproveLiteSidebar.label "Tab Improve Lite">
+<!ENTITY NTabImproveLiteToolbar.name  "Tab Improve Lite">
+<!ENTITY NTabImproveLiteToolbar.label "This is an example toolbar. You can hide it under View &gt; toolbars &gt; &NTabImproveLiteToolbar.name;">

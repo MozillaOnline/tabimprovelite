@@ -1,0 +1,8 @@
+<!ENTITY NTabImproveLite.label "标签页管理器">
+<!ENTITY NTabImproveLiteContext.label "标签页管理器">
+<!ENTITY NTabImproveLiteContext.accesskey "N">
+<!ENTITY NTabImproveLiteToolbarButton.label "标签页管理器">
+<!ENTITY NTabImproveLiteToolbarButton.tooltip "新标签页管理器 !">
+<!ENTITY NTabImproveLiteSidebar.label "标签页管理器">
+<!ENTITY NTabImproveLiteToolbar.name  "标签页管理器">
+<!ENTITY NTabImproveLiteToolbar.label "This is an example toolbar. You can hide it under View &gt; toolbars &gt; &NTabImproveLiteToolbar.name;">
