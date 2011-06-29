@@ -37,3 +37,6 @@
 <!ENTITY closeLastTab.label "关闭最后标签页：">
 <!ENTITY closeLastTab.yes "允许">
 <!ENTITY closeLastTab.no "禁止">
+<!ENTITY substituteLastTab.label "关闭标签页之后：">
+<!ENTITY substituteLastTab.closeWindow "关闭浏览器窗口">
+<!ENTITY substituteLastTab.substituteWithBlank "替换为空白页">

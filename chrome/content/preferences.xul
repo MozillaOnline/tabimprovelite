@@ -11,8 +11,8 @@
 %optionsDTD;
 ]>
 <prefwindow id="NTabImproveLite-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&prefwindow.title;"
-	dlgbuttons="accept,cancel,extra1" buttonlabelextra1="&defaults;" ondialogaccept="onAccept();" ondialogextra1="onDefault();">
- 
+	onload="onLoad();" dlgbuttons="accept,cancel,extra1" buttonlabelextra1="&defaults;" ondialogaccept="onAccept();" ondialogextra1="onDefault();">
+ <script type="application/x-javascript" src="chrome://ntabimprovelite/content/preferences.js"/>
  <prefpane id="prefpane1" label="preference">
 		<preferences>
 			<preference id="openNewTabPref" name="browser.tabs.insertRelatedAfterCurrent" type="bool"/>
@@ -26,6 +26,7 @@
 			<preference id="middleClickPref" name="extensions.ntabimprovelite.middleClickPref" type="bool"/>
 			<preference id="rightClickPref" name="extensions.ntabimprovelite.rightClickPref" type="bool"/>
 			<preference id="closeLastTabPref" name="extensions.ntabimprovelite.closeLastTabPref" type="bool"/>
+			<preference id="closeWindowWithLastTabPref" name="browser.tabs.closeWindowWithLastTab" type="bool"/>
 		</preferences>
 		<groupbox id="opentab">
 		<caption label="&openTab.label;"/>
@@ -130,8 +131,15 @@
 				<radiogroup id="closeLastTab" preference="closeLastTabPref">
 					<row>
 						<label>&closeLastTab.label;</label>
-						<radio id="closeLastTab.yes" label="&closeLastTab.yes;" selected="true" value="true"/> 
+						<radio id="closeLastTab.yes" label="&closeLastTab.yes;" value="true"/> 
 						<radio id="closeLastTab.no" label="&closeLastTab.no;" value="false"/>
+					</row>
+				</radiogroup>
+				<radiogroup id="substituteLastTab" preference="closeWindowWithLastTabPref">
+					<row>
+						<label>&substituteLastTab.label;</label>
+						<radio id="substituteLastTab.closeWindow" label="&substituteLastTab.closeWindow;" value="true"/> 
+						<radio id="substituteLastTab.substituteWithBlank" label="&substituteLastTab.substituteWithBlank;" value="false"/>
 					</row>
 				</radiogroup>
 			</rows>
@@ -162,12 +170,6 @@
 		}
 		prefService.setIntPref("extensions.ntabimprovelite.openTabNext",value5);
 	}
-    function onDefault() {
-      var preferences = document.getElementsByTagName("preference");
-      for (var i = 0; i < preferences.length; i++) {
-        preferences[i].value = preferences[i].defaultValue;
-      }
-    }
   ]]>
   </script>
 </prefwindow>

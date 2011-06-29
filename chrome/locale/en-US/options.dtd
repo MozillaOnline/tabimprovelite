@@ -37,3 +37,6 @@
 <!ENTITY closeLastTab.label "Close Last Tab:">
 <!ENTITY closeLastTab.yes "Allow">
 <!ENTITY closeLastTab.no "Forbidden">
+<!ENTITY substituteLastTab.label "When close last tab">
+<!ENTITY substituteLastTab.closeWindow "Close browser window">
+<!ENTITY substituteLastTab.substituteWithBlank "replace it with blank page">

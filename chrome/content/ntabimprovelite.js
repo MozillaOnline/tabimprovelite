@@ -370,7 +370,7 @@ ntabimprovelite._tabClosingOptions = function() {
 
   //Don't close the last primary window
   TU_hookCode("gBrowser._beginRemoveTab", /\S*closeWindowWithLastTab\S*(?=;)/, <![CDATA[
-    $& && (TU_getPref("extensions.ntabimprovelite.closeLastWindowWithLastTab", false) || function() {
+    $& && (TU_getPref("extensions.ntabimprovelite.closeLastTabPref", false) || function() {
       var winEnum = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator).getEnumerator("navigator:browser");
       while (winEnum.hasMoreElements()) {
         var win = winEnum.getNext();

@@ -4,7 +4,6 @@ pref("extensions.ntabimprovelite.openHomepageInTab", false);
 pref("extensions.ntabimprovelite.openTabNext", 1);
 pref("extensions.ntabimprovelite.openTabNext.keepOrder", false);
 pref("extensions.ntabimprovelite.selectOnClose", 64);
-pref("extensions.ntabimprovelite.closeLastWindowWithLastTab", false);
 pref("extensions.ntabimprovelite.openExternalInTab", false);
 
 pref("browser.tabs.insertRelatedAfterCurrent", true);
