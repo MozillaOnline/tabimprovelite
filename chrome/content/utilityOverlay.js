@@ -75,10 +75,7 @@
       if (url.substr(0, 11) == "javascript:")
         where = "current";
     }],
-    [/(?=var loadInBackground)/, function() {
-      if (w.gBrowser.currentURI.spec == "about:blank" && !w.gBrowser.mCurrentTab.hasAttribute("busy"))
-        where = "current";
-    }],
+	[/where == "tab".*\n?.*where == "tabshifted"/, '$& || where == "background" || where == "foreground"'],
     [/(?=case "tab")/, "case 'background':"],
     [/(?=case "tab")/, "case 'foreground':"],
     [/.*loadOneTab.*/, function(s) s.replace("loadInBackground", "where == 'background' ? true : where == 'foreground' ? false : loadInBackground")]

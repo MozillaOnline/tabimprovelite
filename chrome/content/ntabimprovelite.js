@@ -106,35 +106,21 @@ ntabimprovelite._openUILinkInTab = function() {
   BrowserHome = BrowserGoHome;
 */
   //地址栏回车键
-  var reader = gURLBar.handleCommand.toString();
-  if(reader.search('!isTabEmpty')!=-1){
-	//Firefox 4.0
-	TU_hookCode("BrowserLoadURL" in window ? "BrowserLoadURL" : "gURLBar.handleCommand",
-	["aTriggeringEvent &&","let (newTabPref = (TU_getPref('extensions.ntabimprovelite.locationInputPref', 2)!=1))"],
-	["aTriggeringEvent.altKey && !isTabEmpty(gBrowser.selectedTab)", "(aTriggeringEvent && aTriggeringEvent.altKey || newTabPref) && !((aTriggeringEvent ? aTriggeringEvent.altKey : false) && newTabPref)"],
-	[/(?=\n.*openUILink\b[\s\S]*?([^{}]*)\n.*loadOneTab.*)/, "aTriggeringEvent && aTriggeringEvent.altKey"],
-	[/(.*openUILink.*)[\s\S]*\n(.*loadOneTab.*)[\s\S]*\n(.*loadURI.*)/, function(s, s1, s2, s3) {
-	  s1 = s1.replace(/openUILink\b/, "openUILinkIn").replace("aTriggeringEvent, false, false", "where");
-	  return s.replace(s2, s1.replace("where", "(TU_getPref('extensions.ntabimprovelite.locationInputPref', 2)==3) ? 'background' : 'foreground'"))
-			  .replace(s3, s1.replace("where", "'current'"));
-	}],
-	["aTriggeringEvent.preventDefault();", ""],
-	["aTriggeringEvent.stopPropagation();", ""]
-	);
-  }
-  else{
-  TU_hookCode("BrowserLoadURL" in window ? "BrowserLoadURL" : "gURLBar.handleCommand",
-	[/((aTriggeringEvent) && (aTriggeringEvent.altKey))(?![\s\S]*\1)/, "let (newTabPref = (TU_getPref('extensions.ntabimprovelite.locationInputPref', 2)!=1)) ($1 || newTabPref) && !(($2 ? $3 : false) && newTabPref)"],
-	[/(?=\n.*openUILink\b[\s\S]*?([^{}]*)\n.*loadOneTab.*)/, "$1"],
-	[/(.*openUILink.*)[\s\S]*\n(.*loadOneTab.*)[\s\S]*\n(.*loadURI.*)/, function(s, s1, s2, s3) {
-	  s1 = s1.replace(/openUILink\b/, "openUILinkIn").replace("aTriggeringEvent, false, false", "where");
-	  return s.replace(s2, s1.replace("where", "(TU_getPref('extensions.ntabimprovelite.locationInputPref', 2)==3) ? 'background' : 'foreground'"))
-			  .replace(s3, s1.replace("where", "'current'"));
-	}],
-	["aTriggeringEvent.preventDefault();", ""],
-	["aTriggeringEvent.stopPropagation();", ""]
-	);
-	}
+  TU_hookCode("gURLBar.handleCommand",
+    [/((aTriggeringEvent)\s*&&\s*(aTriggeringEvent.altKey))(?![\s\S]*\1)/, "let (newTabPref = (TU_getPref('extensions.ntabimprovelite.locationInputPref', 2)!=1)) ($1 || newTabPref) && !(($2 ? $3 : false) && newTabPref && TU_getPref('extensions.tabutils.invertAlt', true))"],
+    [/(?=\n.*openUILink\b[\s\S]*?([^{}]*)\n.*loadOneTab.*)/, "$1"], //Fx 3.6
+    [/(.*openUILink.*)[\s\S]*\n(.*loadOneTab.*)[\s\S]*\n(.*(loadURI|loadCurrent).*)/, function(s, s1, s2, s3) {
+      s1 = s1.replace(/openUILink\b/, "openUILinkIn")
+             .replace("aTriggeringEvent, false, false", "where")
+             .replace(/postData(?=\))/, "$&, null, {event: aTriggeringEvent || {}}"); //Fx 3.6
+      return s.replace(s1, s1 = s1.replace("postData: postData", "$&, event: aTriggeringEvent || {}")) //Fx 4.0+
+              .replace(s2, s1.replace("where", "(TU_getPref('extensions.ntabimprovelite.locationInputPref', 2)==3)  ? 'background' : 'foreground'"))
+              .replace(s3, s1.replace("where", "'current'"));
+    }],
+    [/.*loadURIWithFlags.*(?=[\s\S]*(.*openUILinkIn.*))/, "$1"], //Fx 6.0+
+    ["aTriggeringEvent.preventDefault();", ""],
+    ["aTriggeringEvent.stopPropagation();", ""]
+  );
   //搜索栏回车键
   if (BrowserSearch.searchBar)
   TU_hookCode("BrowserSearch.searchBar.handleSearchCommand",
