@@ -5,25 +5,30 @@
   TU_hookCode("whereToOpenLink", "{", function() {
     var target;
     switch (arguments.callee.caller && arguments.callee.caller.name) {
-      case "PU_openNodeWithEvent":
-      case "PUIU_openNodeWithEvent":
+      case "PU_openNodeWithEvent":  //Fx 3.6
       case "PU__openTabset":
+      case "PUIU_openNodeWithEvent":  //Fx 4.0
       case "PUIU__openTabset":
         target = "bookmarks";break;
       case "BrowserGoHome":
         target = "homepage";break;
-      case "handleLinkClick":
+      case "handleLinkClick": //Fx 4.0
         target = "links";break;
       default:
         for (var node = e && e.originalTarget; node && !target; node = node.parentNode) {
           switch (node.id) {
             case "bookmarksMenuPopup":
             case "goPopup":
-            case "ybookmarks_menu_popup":
+            case "appmenu_bookmarksPopup":  //Fx 4.0
+            case "appmenu_historyMenupopup":
+            case "pof-main-menupopup": //Plain Old Favorites
+            case "ybookmarks_menu_popup": //Delicious Bookmarks
             case "personal-bookmarks":
             case "ybToolbar-toolbar":
             case "bookmarksPanel":
             case "history-panel":
+            case "bookmarks-menu-button": //Fx 4.0
+            case "historymenu_history": //History Button
             case "ybSidebarPanel":
               target = "bookmarks";break;
             case "home-button":
