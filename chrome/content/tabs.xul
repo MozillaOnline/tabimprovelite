@@ -10,6 +10,6 @@
     <spacer height="8"/>
     <button id="button_tuOptions"
             label="&tuOptions.label;"
-            oncommand="openDialog('chrome://ntabimprovelite/content/preferences.xul', 'Tab Utilities', 'chrome,titlebar,toolbar,centerscreen,dialog=no').focus();"/>
+            oncommand="openDialog('chrome://ntabimprovelite/content/preferences.xul', 'Tab Utilities', 'chrome,titlebar,toolbar,centerscreen,dialog=yes').focus();"/>
   </vbox>
 </overlay>

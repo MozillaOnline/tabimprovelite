@@ -58,7 +58,7 @@
         loadInBackground = (TU_getPref("extensions.ntabimprovelite.locationInputPref", 2)==3);
         break;
       case "searchbar":
-        openInTab = (TU_getPref("extensions.ntabimprovelite.searchInputPref", 2)!=1);
+        openInTab = TU_getPref("browser.search.openintab");
         loadInBackground = (TU_getPref("extensions.ntabimprovelite.searchInputPref", 2)==3);
         break;
     }

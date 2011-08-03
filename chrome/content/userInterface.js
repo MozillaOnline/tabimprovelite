@@ -66,15 +66,15 @@
 		}
 	};
 	
-	openNewTab = function(event){
-		if(!gPrefService.getBoolPref("browser.tabs.insertRelatedAfterCurrent")){
+//	openNewTab = function(event){
+//		if(!gPrefService.getBoolPref("browser.tabs.insertRelatedAfterCurrent")){
 			//防止有些add-on将browser.tabs.insertRelatedAfterCurrent屏蔽，再进行一次移动
-			gBrowser.moveTabTo(event.target, gBrowser.mTabContainer.itemCount);
-		}
-		else{
-			gBrowser.moveTabTo(event.target, gBrowser.mCurrentTab._tPos+1);
-		}
-	};
+//			gBrowser.moveTabTo(event.target, gBrowser.mTabContainer.itemCount);
+//		}
+//		else{
+//			gBrowser.moveTabTo(event.target, gBrowser.mCurrentTab._tPos+1);
+//		}
+//	};
 	//delete bacause this function can not be found in tabmixplus and tab utilities
 	/*var undoHandler={
 		restore: function(event){
@@ -99,7 +99,7 @@
 			gBrowser.tabContainer.addEventListener('dblclick', closeTabByClick.dblclicked, false);
 			gBrowser.tabContainer.addEventListener('click', closeTabByClick.midclicked, true);
 			gBrowser.tabContainer.addEventListener('click', closeTabByClick.rightclicked, false);
-			gBrowser.tabContainer.addEventListener('TabOpen', openNewTab, false);
+//			gBrowser.tabContainer.addEventListener('TabOpen', openNewTab, false);
 		}, 10);
 	}, false);
 	//gBrowser.tabContainer.addEventListener("SSTabRestoring", undoHandler.restore, false);

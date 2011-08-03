@@ -1,6 +1,6 @@
 var ntabimprovelite = {
   onMenuItemCommand: function(e) {
-	var features = "chrome,titlebar,toolbar,centerscreen,modal";
+	var features = "chrome,titlebar,toolbar,centerscreen,dialog=yes";
 	window.openDialog("chrome://ntabimprovelite/content/preferences.xul", "Preferences", features);
   },
   
@@ -127,6 +127,9 @@ ntabimprovelite._openUILinkInTab = function() {
     [/(\(aEvent && aEvent.altKey\)) \^ (newTabPref)/, "($1 || $2) && !($1 && $2)"],
     [/"tab"/, "(TU_getPref('extensions.ntabimprovelite.searchInputPref', 2)==3) ? 'background' : 'foreground'"]
   );
+  
+
+
 };
 
 ntabimprovelite._openLinkInTab = function() {
@@ -152,30 +155,37 @@ ntabimprovelite._tabOpeningOptions = function() {
 
   //在当前标签页的右侧打开新标签页
   //连续打开后台标签时保持原有顺序
-  gBrowser.mTabContainer._tabOffset = 1;
-  TU_hookCode("gBrowser.loadOneTab",  //Firefox 3.5-
-    ["{", "var lastArg = Object(arguments[arguments.length - 1]);"],
-    [/addTab\((.*)\)/, function(s, s1) s.replace(s1, (s1 = s1.split(","), s1.push("{relatedToCurrent: lastArg.relatedToCurrent}"), s1.join().replace("},{", ",")))]
-  );
+//  gBrowser.mTabContainer._tabOffset = 1;
+
 
   TU_hookCode("gBrowser.addTab",
-    ["{", "var lastArg = Object(arguments[arguments.length - 1]), aRelatedToCurrent = lastArg.relatedToCurrent;"],
+    [/\S*insertRelatedAfterCurrent\S*(?=\))/, "false"],
     [/(?=(return t;)(?![\s\S]*\1))/, function() {
-      if (!t.nextSibling && t.arguments.caller != "sss_restoreWindow" && function() {
+      if (t.arguments.caller != "sss_restoreWindow" && !t.hasAttribute("pinned") && function() {
         switch (TU_getPref("extensions.ntabimprovelite.openTabNext", 1)) {
-          case 1: return true;  //All
-          case 2: return aRelatedToCurrent != false;  //All but New Tab
+          case 1: return true; //All
+          case 2: return aRelatedToCurrent != false; //All but New Tab
           case 3: return aRelatedToCurrent == null ? aReferrerURI : aRelatedToCurrent; //None but Links
           default: return false; //None
         }
       }()) {
-        this.moveTabTo(t, this.mCurrentTab._tPos + this.mTabContainer._tabOffset);
-        if (TU_getPref("extensions.ntabimprovelite.openTabNext.keepOrder", true))
-          this.mTabContainer._tabOffset = t._tPos - this.mCurrentTab._tPos + 1;
+        let lastRelatedTab = this.mCurrentTab;
+        if (TU_getPref("extensions.ntabimprovelite.openTabNext.keepOrder", true)) {
+          let panelId = this.mCurrentTab.linkedPanel;
+          for (let i = this.mTabs.length - 1; i >= 0; i--) {
+            if (this.mTabs[i].getAttribute("opener") == panelId) {
+              lastRelatedTab = this.mTabs[i];
+              break;
+            }
+          }
+        }
+        this.moveTabTo(t, t._tPos > lastRelatedTab._tPos ? lastRelatedTab._tPos + 1 : lastRelatedTab._tPos);
+        t.setAttribute("opener", this.mCurrentTab.linkedPanel);
       }
     }]
   );
-
+  
+  
   TU_hookCode("gBrowser.moveTabTo", "{", function() {
     if (aIndex < 0)
       aIndex = 0;
