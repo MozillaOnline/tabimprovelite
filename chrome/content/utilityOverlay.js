@@ -49,6 +49,7 @@
     switch (target) {
       case "bookmarks":
         openInTab = (TU_getPref("extensions.ntabimprovelite.clickMarkAndHistoryPref", 2)!=1);
+		loadInBackground = (TU_getPref("extensions.ntabimprovelite.locationInputPref", 2)==3);
         break;
       case "homepage":
         openInTab = TU_getPref("extensions.ntabimprovelite.openHomepageInTab", false);
