@@ -92,27 +92,30 @@
   if (!("PlacesUIUtils" in window))
     return;
 
-  ["openNodeWithEvent", "openNodeIn", "_openTabset"].forEach(function(name) {
-    if (!PlacesUIUtils["_" + name]) {
-      PlacesUIUtils["_" + name] = PlacesUIUtils[name];
+  ["openNodeWithEvent", "openNodeIn", "_openNodeIn", "_openTabset"].forEach(function(name) {
+    if (!PlacesUIUtils["TI_" + name]) {
+      PlacesUIUtils["TI_" + name] = PlacesUIUtils[name];
       PlacesUIUtils.__defineGetter__(name, function() {
-        return ("_getTopBrowserWin" in this ? this._getTopBrowserWin() : window)[name] || this["_" + name];
+        return ("_getTopBrowserWin" in this ? this._getTopBrowserWin() : window)["TI_" + name] || this["TI_" + name];
       });
       PlacesUIUtils.__defineSetter__(name, function(val) {
-        return "_getTopBrowserWin" in this ? this._getTopBrowserWin()[name] = val : window[name] = val;
+        return "_getTopBrowserWin" in this ? this._getTopBrowserWin()["TI_" + name] = val : window["TI_" + name] = val;
       });
     }
-    if (!window[name]) {
-      window[name] = PlacesUIUtils["_" + name];
+    if (!window["TI_" + name]) {
+      window["TI_" + name] = PlacesUIUtils["TI_" + name];
     }
   });
 
   //侧边栏书签
-  TU_hookCode("openNodeWithEvent", /openNodeIn\((.*)\)/, function(s, s1) s.replace(s1, (s1 = s1.split(","), s1.push("aEvent"), s1.join())));
-  TU_hookCode("openNodeIn", 'aWhere == "current"', '(arguments.length > 2 ? !arguments[2] || !arguments[2].button && !arguments[2].ctrlKey && !arguments[2].altKey && !arguments.shiftKey && !arguments[2].metaKey : $&)');
+  TU_hookCode("TI_openNodeWithEvent", /openNodeIn\((.*)\)/, function(s, s1) s.replace(s1, (s1 = s1.split(","), s1.push("aEvent || {}"), s1.join())));
+  TU_hookCode(TI__openNodeIn ? "TI__openNodeIn" : "TI_openNodeIn",
+    ["{", "var aEvent = arguments[arguments.callee.length];"],
+    ['aWhere == "current"', '(aEvent ? !aEvent.button && !aEvent.ctrlKey && !aEvent.altKey && !aEvent.shiftKey && !aEvent.metaKey : $&)']
+  );
 
   //书签组
-  TU_hookCode("_openTabset",
+  TU_hookCode("TI_openTabset",
     ['where == "tab" ? false : true', 'where == "current"'],
     ['where == "tabshifted" ? true : false', 'where == "tabshifted" ^ browserWindow.TU_getPref("browser.tabs.loadBookmarksInBackground")']
   );
