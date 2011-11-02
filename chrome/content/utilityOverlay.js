@@ -115,7 +115,7 @@
   );
 
   //书签组
-  TU_hookCode("TI_openTabset",
+  TU_hookCode("TI__openTabset",
     ['where == "tab" ? false : true', 'where == "current"'],
     ['where == "tabshifted" ? true : false', 'where == "tabshifted" ^ browserWindow.TU_getPref("browser.tabs.loadBookmarksInBackground")']
   );
