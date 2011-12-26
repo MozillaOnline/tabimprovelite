@@ -107,7 +107,7 @@ ntabimprovelite._openUILinkInTab = function() {
 */
   //µØÖ·À¸»Ø³µ¼ü
   TU_hookCode("gURLBar.handleCommand",
-    [/((aTriggeringEvent)\s*&&\s*(aTriggeringEvent.altKey))(?![\s\S]*\1)/, "let (newTabPref = (TU_getPref('extensions.ntabimprovelite.locationInputPref', 2)!=1)) ($1 || newTabPref) && !(($2 ? $3 : false) && newTabPref && TU_getPref('extensions.tabutils.invertAlt', true))"],
+    [/((aTriggeringEvent)\s*&&\s*(aTriggeringEvent.altKey))(?![\s\S]*\1)/, "let (newTabPref = (TU_getPref('extensions.ntabimprovelite.locationInputPref', 2)!=1)) ($1 || newTabPref) && !(($2 ? $3 : false) && newTabPref)"],
     [/(?=\n.*openUILink\b[\s\S]*?([^{}]*)\n.*loadOneTab.*)/, "$1"], //Fx 3.6
     [/(.*openUILink.*)[\s\S]*\n(.*loadOneTab.*)[\s\S]*\n(.*(loadURI|loadCurrent).*)/, function(s, s1, s2, s3) {
       s1 = s1.replace(/openUILink\b/, "openUILinkIn")
@@ -117,6 +117,8 @@ ntabimprovelite._openUILinkInTab = function() {
               .replace(s2, s1.replace("where", "(TU_getPref('extensions.ntabimprovelite.locationInputPref', 2)==3)  ? 'background' : 'foreground'"))
               .replace(s3, s1.replace("where", "'current'"));
     }],
+    ["openUILinkIn(url, where, params);", function(s) s.replace("params", "{allowThirdPartyFixup: true, postData: postData, event: aTriggeringEvent || {}, inBackground: false}")], //Fx 10.0+
+    ["loadCurrent();", "openUILinkIn(url, 'current', {allowThirdPartyFixup: true, postData: postData});", "g"], //Fx 10.0+
     [/.*loadURIWithFlags.*(?=[\s\S]*(.*openUILinkIn.*))/, "$1"], //Fx 6.0+
     ["aTriggeringEvent.preventDefault();", ""],
     ["aTriggeringEvent.stopPropagation();", ""]
