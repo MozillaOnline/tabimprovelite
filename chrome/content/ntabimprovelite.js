@@ -378,4 +378,8 @@ ntabimprovelite._tabClosingOptions = function() {
       return null;
     }())
   ]]>);
+
+  if (!TU_getPref("extensions.ntabimprovelite.closeLastTabPref", false)) {
+    gPrefService.setBoolPref("browser.tabs.closeWindowWithLastTab", true);
+  }
 };

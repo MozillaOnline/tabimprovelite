@@ -169,6 +169,9 @@
 			value5=1;
 		}
 		prefService.setIntPref("extensions.ntabimprovelite.openTabNext",value5);
+		if (!prefService.getBoolPref("extensions.ntabimprovelite.closeLastTabPref")) {
+			prefService.setBoolPref("browser.tabs.closeWindowWithLastTab", true);
+		}
 	}
   ]]>
   </script>

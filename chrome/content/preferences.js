@@ -1,6 +1,8 @@
 function updatesubstituteLastTabStatus() {
-	document.getElementById("substituteLastTab.closeWindow").disabled = document.getElementById("closeLastTab.no").selected;
-	document.getElementById("substituteLastTab.substituteWithBlank").disabled = document.getElementById("closeLastTab.no").selected;
+	document.getElementById("substituteLastTab").disabled = document.getElementById("closeLastTab.no").selected;
+	if (document.getElementById("closeLastTab.no").selected) {
+		document.getElementById("substituteLastTab").selectedItem = document.getElementById("substituteLastTab.closeWindow");
+	}
 } 
 
 function onDefault() {
