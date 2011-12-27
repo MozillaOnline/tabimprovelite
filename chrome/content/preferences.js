@@ -2,6 +2,9 @@ function updatesubstituteLastTabStatus() {
 	document.getElementById("substituteLastTab").disabled = document.getElementById("closeLastTab.no").selected;
 	if (document.getElementById("closeLastTab.no").selected) {
 		document.getElementById("substituteLastTab").selectedItem = document.getElementById("substituteLastTab.closeWindow");
+		var evt = document.createEvent("Events");
+		evt.initEvent("change", true, false);
+		document.getElementById("substituteLastTab").dispatchEvent(evt);
 	}
 } 
 
