@@ -117,7 +117,7 @@ ntabimprovelite._openUILinkInTab = function() {
               .replace(s2, s1.replace("where", "(TU_getPref('extensions.ntabimprovelite.locationInputPref', 2)==3)  ? 'background' : 'foreground'"))
               .replace(s3, s1.replace("where", "'current'"));
     }],
-    ["openUILinkIn(url, where, params);", function(s) s.replace("params", "{allowThirdPartyFixup: true, postData: postData, event: aTriggeringEvent || {}, inBackground: false}")], //Fx 10.0+
+    ["openUILinkIn(url, where, params);", function(s) s.replace("params", "{allowThirdPartyFixup: true, postData: postData, event: aTriggeringEvent || {}, inBackground: (TU_getPref('extensions.ntabimprovelite.locationInputPref', 2)==3)}")], //Fx 10.0+
     ["loadCurrent();", "openUILinkIn(url, 'current', {allowThirdPartyFixup: true, postData: postData});", "g"], //Fx 10.0+
     [/.*loadURIWithFlags.*(?=[\s\S]*(.*openUILinkIn.*))/, "$1"], //Fx 6.0+
     ["aTriggeringEvent.preventDefault();", ""],
