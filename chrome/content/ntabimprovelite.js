@@ -49,7 +49,6 @@ ntabimprovelite._tabEventListeners = {
           aURI: aURI,
           aReferrerURI: aReferrerURI,
           aRelatedToCurrent: aRelatedToCurrent,
-          caller: arguments.callee.caller && arguments.callee.caller.name
         };
       }]
     );
@@ -163,7 +162,7 @@ ntabimprovelite._tabOpeningOptions = function() {
   TU_hookCode("gBrowser.addTab",
     [/\S*insertRelatedAfterCurrent\S*(?=\))/, "false"],
     [/(?=(return t;)(?![\s\S]*\1))/, function() {
-      if (t.arguments.caller != "sss_restoreWindow" && !t.hasAttribute("pinned") && function() {
+      if (/*t.arguments.caller != "sss_restoreWindow" &&*/ !t.hasAttribute("pinned") && function() {
         switch (TU_getPref("extensions.ntabimprovelite.openTabNext", 1)) {
           case 1: return true; //All
           case 2: return aRelatedToCurrent != false; //All but New Tab
@@ -186,7 +185,6 @@ ntabimprovelite._tabOpeningOptions = function() {
       }
     }]
   );
-  
   
   TU_hookCode("gBrowser.moveTabTo", "{", function() {
     if (aIndex < 0)
@@ -295,8 +293,7 @@ ntabimprovelite._tabClosingOptions = function() {
 
   //关闭标签页时选择亲属标签
   TU_hookCode("gBrowser.onTabOpen", "}", function() {
-    if (tab.arguments.caller != "sss_restoreWindow")
-      tab.setAttribute("opener", this.mCurrentTab.linkedPanel);
+    tab.setAttribute("opener", this.mCurrentTab.linkedPanel);
   });
 
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
