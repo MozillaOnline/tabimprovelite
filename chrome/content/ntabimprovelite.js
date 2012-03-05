@@ -1,9 +1,9 @@
 var ntabimprovelite = {
   onMenuItemCommand: function(e) {
-	var features = "chrome,titlebar,toolbar,centerscreen,dialog=yes";
-	window.openDialog("chrome://ntabimprovelite/content/preferences.xul", "Preferences", features);
+    var features = "chrome,titlebar,toolbar,centerscreen,dialog=yes";
+    window.openDialog("chrome://ntabimprovelite/content/preferences.xul", "Preferences", features);
   },
-  
+
   init: function() {
     gBrowser = gBrowser || getBrowser();  //Compatibility with Firefox 3.0
 
@@ -12,6 +12,7 @@ var ntabimprovelite = {
     this._openLinkInTab();
     this._tabOpeningOptions();
     this._tabClosingOptions();
+    this._sendStats();
   },
 
   get _eTLDService() {
@@ -129,7 +130,7 @@ ntabimprovelite._openUILinkInTab = function() {
     [/(\(aEvent && aEvent.altKey\)) \^ (newTabPref)/, "($1 || $2) && !($1 && $2)"],
     [/"tab"/, "(TU_getPref('extensions.ntabimprovelite.searchInputPref', 2)==3) ? 'background' : 'foreground'"]
   );
-  
+
 
 
 };
@@ -186,8 +187,8 @@ ntabimprovelite._tabOpeningOptions = function() {
       }
     }]
   );
-  
-  
+
+
   TU_hookCode("gBrowser.moveTabTo", "{", function() {
     if (aIndex < 0)
       aIndex = 0;
@@ -383,3 +384,59 @@ ntabimprovelite._tabClosingOptions = function() {
     gPrefService.setBoolPref("browser.tabs.closeWindowWithLastTab", true);
   }
 };
+
+ntabimprovelite._sendStats = function() {
+  var usageSampleKey = 'extensions.ntabimprovelite.usageSample';
+  var prefBranch =
+      Components.classes['@mozilla.org/preferences-service;1']
+                .getService(Components.interfaces.nsIPrefBranch);
+  if (prefBranch.prefHasUserValue(usageSampleKey)) {
+    return;
+  }
+  var random = Math.random();
+  prefBranch.setCharPref(usageSampleKey, random);
+  if (random >= 0.01) {
+    return;
+  }
+  var sample = 0;
+  ['extensions.ntabimprovelite.openHomepageInTab',
+   'extensions.ntabimprovelite.openTabNext',
+   'extensions.ntabimprovelite.openTabNext.keepOrder',
+   'extensions.ntabimprovelite.openExternalInTab',
+   'browser.tabs.insertRelatedAfterCurrent',
+   'browser.tabs.selectOwnerOnClose',
+   'browser.tabs.loadDivertedInBackground',
+   'extensions.ntabimprovelite.locationInputPref',
+   'extensions.ntabimprovelite.searchInputPref',
+   'extensions.ntabimprovelite.clickMarkAndHistoryPref',
+   'extensions.ntabimprovelite.closeTabreturnPref',
+   'extensions.ntabimprovelite.doubleClickPref',
+   'extensions.ntabimprovelite.middleClickPref',
+   'extensions.ntabimprovelite.rightClickPref',
+   'extensions.ntabimprovelite.closeLastTabPref'].forEach(function(prefKey) {
+    var val = 0;
+    if (prefBranch.prefHasUserValue(prefKey)) {
+      switch (prefBranch.getPrefType(prefKey)) {
+        case prefBranch.PREF_BOOL:
+          val = prefBranch.getBoolPref(prefKey) ? 1 : 0;
+          break;
+        case prefBranch.PREF_INT:
+          val = prefBranch.getIntPref(prefKey);
+          break;
+        default:
+          break;
+      }
+      val += 1;
+    }
+    sample += val;
+    sample *= 10;
+  })
+  var prefKey = 'extensions.ntabimprovelite.selectOnClose';
+  if (prefBranch.prefHasUserValue(prefKey)) {
+    sample += Math.log(prefBranch.getIntPref(prefKey)) / Math.log(2) + 1;
+  }
+  var img = new Image();
+  img.src = 'http://addons.g-fox.cn/tabimprovelite.gif'
+          + '?r=' + Math.random()
+          + '&sample=' + sample;
+}
