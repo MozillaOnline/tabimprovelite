@@ -25,6 +25,15 @@ var ntabimprovelite = {
     Application.prefs.setValue("extensions.ntabimprovelite.rightClickPref", r);
     var otbg = (document.getElementById("ntabimprove_loadInBackground_enable").getAttribute("checked") == "true")
     Application.prefs.setValue("browser.tabs.loadInBackground", otbg);
+
+    setTimeout(function(){
+    document.getElementById("ntabimprove_closetab_dblclick").removeAttribute("checked");
+    document.getElementById("ntabimprove_closetab_mclick").removeAttribute("checked");
+    document.getElementById("ntabimprove_closetab_rclick").removeAttribute("checked");
+    document.getElementById("ntabimprove_loadInBackground_disable").removeAttribute("checked");
+    document.getElementById("ntabimprove_loadInBackground_enable").removeAttribute("checked");
+    Application.console.log("hidden");
+  },100);
   },
 
   init: function() {
