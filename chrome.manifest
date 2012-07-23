@@ -7,5 +7,5 @@ overlay   chrome://browser/content/places/placesOverlay.xul         chrome://nta
 overlay   chrome://ybookmarks/content/ybsidebar.xul                 chrome://ntabimprovelite/content/placesOverlay.xul
 overlay   chrome://bookmarktags/content/tagBrowserSidebar.xul       chrome://ntabimprovelite/content/placesOverlay.xul
 overlay   chrome://browser/content/preferences/tabs.xul             chrome://ntabimprovelite/content/tabs.xul
-style     chrome://global/content/customizeToolbar.xul              chrome://ntabimprovelite/skin/overlay.css
+style     chrome://global/content/customizeToolbar.xul              chrome://ntabimprovelite/skin/ntabimprovelite.css
 

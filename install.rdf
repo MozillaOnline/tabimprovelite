@@ -7,9 +7,10 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
 		<em:id>tabimprovelite@mozillaonline.com</em:id>
 		<em:name>Tab Improvement Lite</em:name>
-		<em:version>0.13</em:version>
+		<em:version>1.0</em:version>
 		<em:description>Tabs open to the right of the current one, double click to close the tab and add an new tab button on the right side of tab bar. Open Url and search in new tabs</em:description>
 		<em:creator>Mozilla Online</em:creator>
+		<em:contributor>Frank Jiao</em:contributor>
 		<em:contributor>Amax Guan</em:contributor>
 		<em:contributor>John Mellor</em:contributor>
 		<em:contributor>Ben Jones</em:contributor>
@@ -23,8 +24,8 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 		<em:targetApplication>
 			<Description>
 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-				<em:minVersion>3.0a1</em:minVersion>
-				<em:maxVersion>12.*</em:maxVersion>
+				<em:minVersion>4.0</em:minVersion>
+				<em:maxVersion>14.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 
@@ -37,6 +38,7 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 				<em:name>标签页管理器</em:name>
 				<em:description>在当前活跃标签右侧打开新标签，双击关闭标签。并在右侧添加新标签按钮。并可设置在新的标签页打开URL和搜索结果</em:description>
 				<em:creator>Mozilla Online</em:creator>
+    		<em:contributor>Frank Jiao</em:contributor>
 				<em:contributor>Amax Guan</em:contributor>
 				<em:contributor>John Mellor</em:contributor>
 				<em:contributor>Ben Jones</em:contributor>

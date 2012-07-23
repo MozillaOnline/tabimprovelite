@@ -4,6 +4,29 @@ var ntabimprovelite = {
     window.openDialog("chrome://ntabimprovelite/content/preferences.xul", "Preferences", features);
   },
 
+  onpopupshowing: function() {
+    var dbl = Application.prefs.getValue("extensions.ntabimprovelite.doubleClickPref", false);
+    var m = Application.prefs.getValue("extensions.ntabimprovelite.middleClickPref", false);
+    var r = Application.prefs.getValue("extensions.ntabimprovelite.rightClickPref", false);
+    document.getElementById("ntabimprove_closetab_dblclick").setAttribute("checked",dbl?"true":"false");
+    document.getElementById("ntabimprove_closetab_mclick").setAttribute("checked",m?"true":"false");
+    document.getElementById("ntabimprove_closetab_rclick").setAttribute("checked",r?"true":"false");
+    var otbg = Application.prefs.getValue("browser.tabs.loadInBackground", true);
+    document.getElementById("ntabimprove_loadInBackground_disable").setAttribute("checked",otbg?"false":"true");
+    document.getElementById("ntabimprove_loadInBackground_enable").setAttribute("checked",otbg?"true":"false");
+  },
+
+  onpopuphiding: function() {
+    var dbl = (document.getElementById("ntabimprove_closetab_dblclick").getAttribute("checked") == "true")
+    Application.prefs.setValue("extensions.ntabimprovelite.doubleClickPref", dbl);
+    var m = (document.getElementById("ntabimprove_closetab_mclick").getAttribute("checked") == "true")
+    Application.prefs.setValue("extensions.ntabimprovelite.middleClickPref", m);
+    var r = (document.getElementById("ntabimprove_closetab_rclick").getAttribute("checked") == "true")
+    Application.prefs.setValue("extensions.ntabimprovelite.rightClickPref", r);
+    var otbg = (document.getElementById("ntabimprove_loadInBackground_enable").getAttribute("checked") == "true")
+    Application.prefs.setValue("browser.tabs.loadInBackground", otbg);
+  },
+
   init: function() {
     gBrowser = gBrowser || getBrowser();  //Compatibility with Firefox 3.0
 

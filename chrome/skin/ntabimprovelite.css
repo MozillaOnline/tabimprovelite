@@ -1,0 +1,12 @@
+.toolbarbutton-ce{
+  list-style-image: url("chrome://ntabimprovelite/skin/ce-Toolbar.png") !important;
+}
+
+#TabsToolbar:last-child :-moz-any(#ntabimprove) {
+  list-style-image: url("chrome://ntabimprovelite/skin/ce-Toolbar-inverted.png") !important;
+}
+
+#ntabimprove{
+  -moz-image-region: rect(0px, 237px, 18px, 219px) !important;
+  -moz-box-orient: horizontal !important;
+}
