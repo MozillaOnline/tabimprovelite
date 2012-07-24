@@ -11,7 +11,7 @@ var ntabimprovelite = {
     document.getElementById("ntabimprove_closetab_dblclick").setAttribute("checked",dbl?"true":"false");
     document.getElementById("ntabimprove_closetab_mclick").setAttribute("checked",m?"true":"false");
     document.getElementById("ntabimprove_closetab_rclick").setAttribute("checked",r?"true":"false");
-    var otbg = Application.prefs.getValue("browser.tabs.loadInBackground", true);
+    var otbg = Application.prefs.getValue("browser.tabs.loadDivertedInBackground", true);
     document.getElementById("ntabimprove_loadInBackground_disable").setAttribute("checked",otbg?"false":"true");
     document.getElementById("ntabimprove_loadInBackground_enable").setAttribute("checked",otbg?"true":"false");
   },
@@ -24,7 +24,7 @@ var ntabimprovelite = {
     var r = (document.getElementById("ntabimprove_closetab_rclick").getAttribute("checked") == "true")
     Application.prefs.setValue("extensions.ntabimprovelite.rightClickPref", r);
     var otbg = (document.getElementById("ntabimprove_loadInBackground_enable").getAttribute("checked") == "true")
-    Application.prefs.setValue("browser.tabs.loadInBackground", otbg);
+    Application.prefs.setValue("browser.tabs.loadDivertedInBackground", otbg);
 
     setTimeout(function(){
     document.getElementById("ntabimprove_closetab_dblclick").removeAttribute("checked");
