@@ -45,24 +45,23 @@ var ntabimprovelite = {
     this._tabOpeningOptions();
     this._tabClosingOptions();
     this._sendStats();
-    this.installButton("ntabimprove");
   },
 
   get _eTLDService() {
     delete this._eTLDService;
     return this._eTLDService = Cc["@mozilla.org/network/effective-tld-service;1"].getService(Ci.nsIEffectiveTLDService);
   },
-  installButton: function ZoomPanel__installButton(buttonId,toolbarId) {
+  installButton: function ntabimprovelite__installButton(buttonId,toolbarId) {
     toolbarId = toolbarId || "addon-bar";
     var key = "extensions.toolbarbutton.installed."+buttonId;
     if(Application.prefs.getValue(key, false))
       return;
     
-  	var toolbar = window.document.getElementById(toolbarId);
-  	let curSet = toolbar.currentSet;
-  	if (-1 == curSet.indexOf(buttonId)){
-  		let newSet = curSet + "," + buttonId;
-  		toolbar.currentSet = newSet;
+    var toolbar = window.document.getElementById(toolbarId);
+    let curSet = toolbar.currentSet;
+    if (-1 == curSet.indexOf(buttonId)){
+      let newSet = curSet + "," + buttonId;
+    	toolbar.currentSet = newSet;
   		toolbar.setAttribute("currentset", newSet);
   		document.persist(toolbar.id, "currentset");
   		try{
@@ -91,11 +90,17 @@ var ntabimprovelite = {
   handleEvent: function(event) {
     window.removeEventListener(event.type, this, false);
     switch (event.type) {
-      case "DOMContentLoaded": this.init();break;
+      case "DOMContentLoaded": 
+        this.init();
+        break;
+      case "load": 
+        this.installButton("ntabimprove");
+        break;
     }
   }
 };
 window.addEventListener("DOMContentLoaded", ntabimprovelite, false);
+window.addEventListener("load", ntabimprovelite, false);
 
 ntabimprovelite._tabEventListeners = {
   init: function() {
