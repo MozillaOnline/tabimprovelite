@@ -28,9 +28,9 @@
 		<toolbarbutton id="ntabimprove" label="&NTabImproveLite.label;" type="menu" tooltiptext="&NTabImproveLite.label;" 
 		               class="toolbarbutton-1 toolbarbutton-ce" >
       <menupopup id="ntabimprove_Popup" onpopupshowing="ntabimprovelite.onpopupshowing();" onpopuphiding="ntabimprovelite.onpopuphiding()">
-        <menuitem id="ntabimprove_closetab_dblclick" label="&doubleClickPref.label;&closeTab;" type="checkbox" checked="true"/>
-        <menuitem id="ntabimprove_closetab_mclick" label="&middleClickPref.label;&closeTab;" type="checkbox" checked="true"/>
-        <menuitem id="ntabimprove_closetab_rclick" label="&rightClickPref.label;&closeTab;" type="checkbox" checked="true"/>
+        <menuitem id="ntabimprove_closetab_dblclick" label="&doubleClickPref.label; &closeTab;" type="checkbox" checked="true"/>
+        <menuitem id="ntabimprove_closetab_mclick" label="&middleClickPref.label; &closeTab;" type="checkbox" checked="true"/>
+        <menuitem id="ntabimprove_closetab_rclick" label="&rightClickPref.label; &closeTab;" type="checkbox" checked="true"/>
         <menuseparator/>
         <menuitem id="ntabimprove_loadInBackground_disable" label="&loadInBackground.disable.label;" type="radio" checked="true"/>
         <menuitem id="ntabimprove_loadInBackground_enable" label="&loadInBackground.enable.label;" type="radio" checked="true"/>
