@@ -4,6 +4,37 @@ var ntabimprovelite = {
     window.openDialog("chrome://ntabimprovelite/content/preferences.xul", "Preferences", features);
   },
 
+  onpopupshowing: function() {
+    var dbl = Application.prefs.getValue("extensions.ntabimprovelite.doubleClickPref", false);
+    var m = Application.prefs.getValue("extensions.ntabimprovelite.middleClickPref", false);
+    var r = Application.prefs.getValue("extensions.ntabimprovelite.rightClickPref", false);
+    document.getElementById("ntabimprove_closetab_dblclick").setAttribute("checked",dbl?"true":"false");
+    document.getElementById("ntabimprove_closetab_mclick").setAttribute("checked",m?"true":"false");
+    document.getElementById("ntabimprove_closetab_rclick").setAttribute("checked",r?"true":"false");
+    var otbg = Application.prefs.getValue("browser.tabs.loadDivertedInBackground", true);
+    document.getElementById("ntabimprove_loadInBackground_disable").setAttribute("checked",otbg?"false":"true");
+    document.getElementById("ntabimprove_loadInBackground_enable").setAttribute("checked",otbg?"true":"false");
+  },
+
+  onpopuphiding: function() {
+    var dbl = (document.getElementById("ntabimprove_closetab_dblclick").getAttribute("checked") == "true")
+    Application.prefs.setValue("extensions.ntabimprovelite.doubleClickPref", dbl);
+    var m = (document.getElementById("ntabimprove_closetab_mclick").getAttribute("checked") == "true")
+    Application.prefs.setValue("extensions.ntabimprovelite.middleClickPref", m);
+    var r = (document.getElementById("ntabimprove_closetab_rclick").getAttribute("checked") == "true")
+    Application.prefs.setValue("extensions.ntabimprovelite.rightClickPref", r);
+    var otbg = (document.getElementById("ntabimprove_loadInBackground_enable").getAttribute("checked") == "true")
+    Application.prefs.setValue("browser.tabs.loadDivertedInBackground", otbg);
+
+    setTimeout(function(){
+      document.getElementById("ntabimprove_closetab_dblclick").removeAttribute("checked");
+      document.getElementById("ntabimprove_closetab_mclick").removeAttribute("checked");
+      document.getElementById("ntabimprove_closetab_rclick").removeAttribute("checked");
+      document.getElementById("ntabimprove_loadInBackground_disable").removeAttribute("checked");
+      document.getElementById("ntabimprove_loadInBackground_enable").removeAttribute("checked");
+    },100);
+  },
+
   init: function() {
     gBrowser = gBrowser || getBrowser();  //Compatibility with Firefox 3.0
 
@@ -18,6 +49,29 @@ var ntabimprovelite = {
   get _eTLDService() {
     delete this._eTLDService;
     return this._eTLDService = Cc["@mozilla.org/network/effective-tld-service;1"].getService(Ci.nsIEffectiveTLDService);
+  },
+  installButton: function ntabimprovelite__installButton(buttonId,toolbarId) {
+    toolbarId = toolbarId || "addon-bar";
+    var key = "extensions.toolbarbutton.installed."+buttonId;
+    if(Application.prefs.getValue(key, false))
+      return;
+
+    var toolbar = window.document.getElementById(toolbarId);
+    let curSet = toolbar.currentSet;
+    if (-1 == curSet.indexOf(buttonId)){
+      let newSet = curSet + "," + buttonId;
+      toolbar.currentSet = newSet;
+      toolbar.setAttribute("currentset", newSet);
+      document.persist(toolbar.id, "currentset");
+      try{
+        BrowserToolboxCustomizeDone(true);
+      }catch(e){}
+    }
+    if (toolbar.getAttribute("collapsed") == "true") {
+      toolbar.setAttribute("collapsed", "false");
+    }
+    document.persist(toolbar.id, "collapsed");
+    Application.prefs.setValue(key, true);
   },
 
   getDomainFromURI: function(aURI) {
@@ -35,11 +89,17 @@ var ntabimprovelite = {
   handleEvent: function(event) {
     window.removeEventListener(event.type, this, false);
     switch (event.type) {
-      case "DOMContentLoaded": this.init();break;
+      case "DOMContentLoaded":
+        this.init();
+        break;
+      case "load":
+        this.installButton("ntabimprove");
+        break;
     }
   }
 };
 window.addEventListener("DOMContentLoaded", ntabimprovelite, false);
+window.addEventListener("load", ntabimprovelite, false);
 
 ntabimprovelite._tabEventListeners = {
   init: function() {

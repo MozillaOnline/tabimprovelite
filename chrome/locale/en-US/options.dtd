@@ -1,4 +1,4 @@
-<!ENTITY prefwindow.title "Tab Improve Lite  - setting">
+<!ENTITY prefwindow.title "Tab Improve Lite  - settings">
 <!ENTITY defaults "Restore to Default">
 <!ENTITY openTab.label "Open tab">
 <!ENTITY openNewTabPref.label "New tab locate：">
@@ -31,7 +31,7 @@
 <!ENTITY closeTabreturn.allRight "Right Most">
 <!ENTITY closeTabreturn.lastSelect "Last viewed tab">
 <!ENTITY supportpref.label "Support Close:">
-<!ENTITY doubleClickPref.label "Double Left Click ">
+<!ENTITY doubleClickPref.label "Double Left Click">
 <!ENTITY rightClickPref.label "Right Click">
 <!ENTITY middleClickPref.label "Middle Click">
 <!ENTITY closeLastTab.label "Close Last Tab:">
