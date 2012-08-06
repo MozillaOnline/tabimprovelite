@@ -1,10 +1,10 @@
 var ntabimprovelite = {
-  onMenuItemCommand: function(e) {
+  onMenuItemCommand: function ntabimprovelite__onMenuItemCommand(e) {
     var features = "chrome,titlebar,toolbar,centerscreen,dialog=yes";
     window.openDialog("chrome://ntabimprovelite/content/preferences.xul", "Preferences", features);
   },
 
-  onpopupshowing: function() {
+  onpopupshowing: function ntabimprovelite__onpopupshowing() {
     var dbl = Application.prefs.getValue("extensions.ntabimprovelite.doubleClickPref", false);
     var m = Application.prefs.getValue("extensions.ntabimprovelite.middleClickPref", false);
     var r = Application.prefs.getValue("extensions.ntabimprovelite.rightClickPref", false);
@@ -16,7 +16,7 @@ var ntabimprovelite = {
     document.getElementById("ntabimprove_loadInBackground_enable").setAttribute("checked",otbg?"true":"false");
   },
 
-  onpopuphiding: function() {
+  onpopuphiding: function ntabimprovelite__onpopuphiding() {
     var dbl = (document.getElementById("ntabimprove_closetab_dblclick").getAttribute("checked") == "true")
     Application.prefs.setValue("extensions.ntabimprovelite.doubleClickPref", dbl);
     var m = (document.getElementById("ntabimprove_closetab_mclick").getAttribute("checked") == "true")
@@ -35,7 +35,7 @@ var ntabimprovelite = {
     },100);
   },
 
-  init: function() {
+  init: function ntabimprovelite__init() {
     gBrowser = gBrowser || getBrowser();  //Compatibility with Firefox 3.0
 
     this._tabEventListeners.init();
@@ -73,8 +73,17 @@ var ntabimprovelite = {
     document.persist(toolbar.id, "collapsed");
     Application.prefs.setValue(key, true);
   },
+  bindPopup: function ntabimprovelite__bindPopup(buttonId,menuId){
+    var button = document.getElementById(buttonId)
+    var menu = document.getElementById(menuId)
+    button.addEventListener("mousedown",function(aEvent){
+      if (aEvent.button != 0 )
+        return;
+      menu.openPopup(button, "before_start", 0, 0, false, false, aEvent);
+    },false);
+  },
 
-  getDomainFromURI: function(aURI) {
+  getDomainFromURI: function ntabimprovelite__getDomainFromURI(aURI) {
     try {
       return this._eTLDService.getBaseDomain(aURI);
     }
@@ -86,7 +95,7 @@ var ntabimprovelite = {
     catch (e) {}
   },
 
-  handleEvent: function(event) {
+  handleEvent: function ntabimprovelite__handleEvent(event) {
     window.removeEventListener(event.type, this, false);
     switch (event.type) {
       case "DOMContentLoaded":
@@ -94,6 +103,7 @@ var ntabimprovelite = {
         break;
       case "load":
         this.installButton("ntabimprove");
+        this.bindPopup("ntabimprove","ntabimprove_Popup");
         break;
     }
   }
