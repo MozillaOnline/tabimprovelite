@@ -29,7 +29,7 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 			</Description>
 		</em:targetApplication>
 
-		<em:updateURL>http://g-fox.cn/chinaedition/addons/tabimprovelite/update.rdf</em:updateURL>
+		<em:updateURL>http://g-fox.cn/chinaedition/addons/tabimprovelite/update.rdf?version=%ITEM_VERSION%</em:updateURL>
 		<em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDAvclCQ8nXMVB+UZpw2bLa7Qep6UO1YV6quUpw0RBDQgh5BMX6d4VaW/ZwMts7dFRA/7+yfjr3DTG036ldlRdnho6EztgDZKpLuU5tEORc9JfVspqb1Yw7ePRrKuc0vPyq1+2f1eEuXmikK3DGImd2lL9AoNYwHj7/+ERhntRQsQIDAQAB</em:updateKey>
 
 		<em:localized>
