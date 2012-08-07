@@ -1,7 +1,10 @@
-.toolbarbutton-ce{
+#ntabimprove{
   list-style-image: url("chrome://ntabimprovelite/skin/ce-Toolbar.png") !important;
 }
 
+#ntabimprove :-moz-lwtheme {
+  list-style-image: url("chrome://ntabimprovelite/skin/ce-Toolbar-inverted.png") !important;
+}
 #TabsToolbar:last-child :-moz-any(#ntabimprove) {
   list-style-image: url("chrome://ntabimprovelite/skin/ce-Toolbar-inverted.png") !important;
 }
