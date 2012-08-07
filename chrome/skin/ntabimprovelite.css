@@ -2,7 +2,7 @@
   list-style-image: url("chrome://ntabimprovelite/skin/ce-Toolbar.png") !important;
 }
 
-#ntabimprove :-moz-lwtheme {
+#ntabimprove:-moz-lwtheme-brighttext {
   list-style-image: url("chrome://ntabimprovelite/skin/ce-Toolbar-inverted.png") !important;
 }
 #TabsToolbar:last-child :-moz-any(#ntabimprove) {
