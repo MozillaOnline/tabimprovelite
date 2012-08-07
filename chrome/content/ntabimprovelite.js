@@ -51,6 +51,7 @@ var ntabimprovelite = {
     delete this._eTLDService;
     return this._eTLDService = Cc["@mozilla.org/network/effective-tld-service;1"].getService(Ci.nsIEffectiveTLDService);
   },
+
   installButton: function ntabimprovelite__installButton(buttonId,toolbarId) {
     toolbarId = toolbarId || "addon-bar";
     var key = "extensions.toolbarbutton.installed."+buttonId;
@@ -74,8 +75,11 @@ var ntabimprovelite = {
   	document.persist(toolbar.id, "collapsed");
   	Application.prefs.setValue(key, true);
   },
+
   bindPopup: function ntabimprovelite__bindPopup(buttonId,menuId){
     var button = document.getElementById(buttonId)
+    if(!button)
+      return;
     var menu = document.getElementById(menuId)
     button.addEventListener("mousedown",function(aEvent){
       if (aEvent.button != 0 )
@@ -104,10 +108,20 @@ var ntabimprovelite = {
         break;
       case "load": 
         this.installButton("ntabimprove");
-        this.bindPopup("ntabimprove","ntabimprove_Popup");
+        this.initUI();
+        var toolbox = document.getElementById("navigator-toolbox");
+        toolbox.addEventListener("aftercustomization",this,false)
+        break;
+      case "aftercustomization":
+        this.initUI();
         break;
     }
-  }
+  },
+
+  initUI: function ntabimprovelite__initUI(){
+    this.bindPopup("ntabimprove","ntabimprove_Popup");
+  },
+
 };
 window.addEventListener("DOMContentLoaded", ntabimprovelite, false);
 window.addEventListener("load", ntabimprovelite, false);
