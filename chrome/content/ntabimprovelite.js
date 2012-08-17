@@ -27,13 +27,12 @@ var ntabimprovelite = {
     Application.prefs.setValue("browser.tabs.loadDivertedInBackground", otbg);
 
     setTimeout(function(){
-    document.getElementById("ntabimprove_closetab_dblclick").removeAttribute("checked");
-    document.getElementById("ntabimprove_closetab_mclick").removeAttribute("checked");
-    document.getElementById("ntabimprove_closetab_rclick").removeAttribute("checked");
-    document.getElementById("ntabimprove_loadInBackground_disable").removeAttribute("checked");
-    document.getElementById("ntabimprove_loadInBackground_enable").removeAttribute("checked");
-    Application.console.log("hidden");
-  },100);
+      document.getElementById("ntabimprove_closetab_dblclick").removeAttribute("checked");
+      document.getElementById("ntabimprove_closetab_mclick").removeAttribute("checked");
+      document.getElementById("ntabimprove_closetab_rclick").removeAttribute("checked");
+      document.getElementById("ntabimprove_loadInBackground_disable").removeAttribute("checked");
+      document.getElementById("ntabimprove_loadInBackground_enable").removeAttribute("checked");
+    },100);
   },
 
   init: function ntabimprovelite__init() {
@@ -57,23 +56,23 @@ var ntabimprovelite = {
     var key = "extensions.toolbarbutton.installed."+buttonId;
     if(Application.prefs.getValue(key, false))
       return;
-    
+
     var toolbar = window.document.getElementById(toolbarId);
     let curSet = toolbar.currentSet;
     if (-1 == curSet.indexOf(buttonId)){
       let newSet = curSet + "," + buttonId;
-    	toolbar.currentSet = newSet;
-  		toolbar.setAttribute("currentset", newSet);
-  		document.persist(toolbar.id, "currentset");
-  		try{
-  			BrowserToolboxCustomizeDone(true);
-  		}catch(e){}
-  	}
-  	if (toolbar.getAttribute("collapsed") == "true") {
-  		toolbar.setAttribute("collapsed", "false");
-  	}
-  	document.persist(toolbar.id, "collapsed");
-  	Application.prefs.setValue(key, true);
+      toolbar.currentSet = newSet;
+      toolbar.setAttribute("currentset", newSet);
+      document.persist(toolbar.id, "currentset");
+      try{
+        BrowserToolboxCustomizeDone(true);
+      }catch(e){}
+    }
+    if (toolbar.getAttribute("collapsed") == "true") {
+      toolbar.setAttribute("collapsed", "false");
+    }
+    document.persist(toolbar.id, "collapsed");
+    Application.prefs.setValue(key, true);
   },
 
   bindPopup: function ntabimprovelite__bindPopup(buttonId,menuId){
@@ -103,10 +102,10 @@ var ntabimprovelite = {
   handleEvent: function ntabimprovelite__handleEvent(event) {
     window.removeEventListener(event.type, this, false);
     switch (event.type) {
-      case "DOMContentLoaded": 
+      case "DOMContentLoaded":
         this.init();
         break;
-      case "load": 
+      case "load":
         this.installButton("ntabimprove");
         this.initUI();
         var toolbox = document.getElementById("navigator-toolbox");
