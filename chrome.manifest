@@ -9,3 +9,4 @@ overlay   chrome://bookmarktags/content/tagBrowserSidebar.xul       chrome://nta
 overlay   chrome://browser/content/preferences/tabs.xul             chrome://ntabimprovelite/content/tabs.xul
 style     chrome://global/content/customizeToolbar.xul              chrome://ntabimprovelite/skin/ntabimprovelite.css
 
+override  chrome://ntabimprovelite/skin/ce-Toolbar.png         chrome://ntabimprovelite/skin/ce-Toolbar-mac.png  os=Darwin
