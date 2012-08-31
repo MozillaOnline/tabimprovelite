@@ -130,11 +130,18 @@ ntabimprovelite._tabEventListeners = {
     TU_hookCode("gBrowser.addTab",
       ["{", "if (!aURI) aURI = 'about:blank';"],
       [/(?=.*dispatchEvent.*)/, function() {
+        var caller = Components.stack.caller;
+        while (caller) {
+          if (caller.name) {
+            break;
+          }
+          caller = caller.caller;
+        }
         t.arguments = {
           aURI: aURI,
           aReferrerURI: aReferrerURI,
           aRelatedToCurrent: aRelatedToCurrent,
-          caller: Components.stack.caller && Components.stack.caller.name //arguments.callee.caller && arguments.callee.caller.name
+          caller: caller.name
         };
       }]
     );
@@ -248,7 +255,7 @@ ntabimprovelite._tabOpeningOptions = function() {
   TU_hookCode("gBrowser.addTab",
     [/\S*insertRelatedAfterCurrent\S*(?=\))/, "false"],
     [/(?=(return t;)(?![\s\S]*\1))/, function() {
-      if (t.arguments.caller != "sss_restoreWindow" && !t.hasAttribute("pinned") && function() {
+      if (["sss_restoreWindow", "ssi_restoreWindow"].indexOf(t.arguments.caller) == -1 && !t.hasAttribute("pinned") && function() {
         switch (TU_getPref("extensions.ntabimprovelite.openTabNext", 1)) {
           case 1: return true; //All
           case 2: return aRelatedToCurrent != false; //All but New Tab
@@ -380,7 +387,7 @@ ntabimprovelite._tabClosingOptions = function() {
 
   //关闭标签页时选择亲属标签
   TU_hookCode("gBrowser.onTabOpen", "}", function() {
-    if (tab.arguments.caller != "sss_restoreWindow")
+    if (["sss_restoreWindow", "ssi_restoreWindow"].indexOf(tab.arguments.caller) == -1)
       tab.setAttribute("opener", this.mCurrentTab.linkedPanel);
   });
 
