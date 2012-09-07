@@ -141,7 +141,7 @@ ntabimprovelite._tabEventListeners = {
           aURI: aURI,
           aReferrerURI: aReferrerURI,
           aRelatedToCurrent: aRelatedToCurrent,
-          caller: caller.name
+          caller: caller && caller.name
         };
       }]
     );
