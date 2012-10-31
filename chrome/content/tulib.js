@@ -39,7 +39,7 @@ function TU_hookFunc(aFunc) {
       newCode = newCode.toString().replace(/^.*{|}$/g, "");
 
     switch (orgCode) {
-      case "{": [orgCode, newCode] = [/^.*{/, "$&" + newCode];break;
+      case "{": [orgCode, newCode] = [/^.*{/m, "$&" + newCode];break;
       case "}": [orgCode, newCode] = [/}$/, newCode + "$&"];break;
     }
 
