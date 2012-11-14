@@ -218,7 +218,6 @@ ntabimprovelite._openUILinkInTab = function() {
   //ËÑË÷À¸»Ø³µ¼ü
   if (BrowserSearch.searchBar)
   TU_hookCode("BrowserSearch.searchBar.handleSearchCommand",
-    [/(\(aEvent && aEvent.altKey\)) \^ (newTabPref)/, "($1 || $2) && !($1 && $2)"],
     [/"tab"/, "(TU_getPref('extensions.ntabimprovelite.searchInputPref', 2)==3) ? 'background' : 'foreground'"]
   );
 
