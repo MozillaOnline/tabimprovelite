@@ -227,17 +227,17 @@ ntabimprovelite._openUILinkInTab = function() {
 ntabimprovelite._openLinkInTab = function() {
 
   //强制在新标签页打开外部链接
-  TU_hookCode("contentAreaClick", /if[^{}]*event.button == 0[^{}]*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*(?=})/, "$&" + <![CDATA[
-    if (TU_getPref("extensions.ntabimprovelite.openExternalInTab", false)) {
-      let ourDomain = ntabimprovelite.getDomainFromURI(linkNode.ownerDocument.documentURIObject);
-      let otherDomain = ntabimprovelite.getDomainFromURI(makeURI(linkNode.href));
-      if (ourDomain && otherDomain && ourDomain != otherDomain) {
-        openNewTabWith(linkNode.href, linkNode.ownerDocument, null, event, false);
-        event.preventDefault();
-        return false;
-      }
-    }
-  ]]>);
+  TU_hookCode("contentAreaClick", /if[^{}]*event.button == 0[^{}]*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*(?=})/, "$&"
++'\n    if (TU_getPref("extensions.ntabimprovelite.openExternalInTab", false)) {                         '
++'\n      let ourDomain = ntabimprovelite.getDomainFromURI(linkNode.ownerDocument.documentURIObject);    '
++'\n      let otherDomain = ntabimprovelite.getDomainFromURI(makeURI(linkNode.href));                    '
++'\n      if (ourDomain && otherDomain && ourDomain != otherDomain) {                                    '
++'\n        openNewTabWith(linkNode.href, linkNode.ownerDocument, null, event, false);                   '
++'\n        event.preventDefault();                                                                      '
++'\n        return false;                                                                                '
++'\n      }                                                                                              '
++'\n    }                                                                                                '
+);
 
   //外来链接
   TU_hookCode("nsBrowserAccess.prototype.openURI", /\S*getIntPref\S*/, 'isExternal ? TU_getPref("browser.link.open_external", 3) : $&');
@@ -457,17 +457,19 @@ ntabimprovelite._tabClosingOptions = function() {
 */
 
   //Don't close the last primary window
-  TU_hookCode("gBrowser._beginRemoveTab", /\S*closeWindowWithLastTab\S*(?=;)/, <![CDATA[
-    $& && (TU_getPref("extensions.ntabimprovelite.closeLastTabPref", false) || function() {
-      var winEnum = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator).getEnumerator("navigator:browser");
-      while (winEnum.hasMoreElements()) {
-        var win = winEnum.getNext();
-        if (win != window && win.toolbar.visible)
-          return win;
-      }
-      return null;
-    }())
-  ]]>);
+  
+  TU_hookCode("gBrowser._beginRemoveTab", /\S*closeWindowWithLastTab\S*(?=;)/, ''
++'\n    $& && (TU_getPref("extensions.ntabimprovelite.closeLastTabPref", false) || function() { '
++'\n      var winEnum = Cc["@mozilla.org/appshell/window-mediator;1"]                           '
++'\n          .getService(Ci.nsIWindowMediator).getEnumerator("navigator:browser");             '
++'\n      while (winEnum.hasMoreElements()) {                                                   '
++'\n        var win = winEnum.getNext();                                                        '
++'\n        if (win != window && win.toolbar.visible)                                           '
++'\n          return win;                                                                       '
++'\n      }                                                                                     '
++'\n      return null;                                                                          '
++'\n    }())                                                                                    '
+);
 
   if (!TU_getPref("extensions.ntabimprovelite.closeLastTabPref", false)) {
     gPrefService.setBoolPref("browser.tabs.closeWindowWithLastTab", true);
