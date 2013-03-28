@@ -405,9 +405,12 @@ ntabimprovelite._tabClosingOptions = function() {
     if (!bTab)
       bTab = this.mCurrentTab;
 
-    return aTab.getAttribute("opener") == bTab.getAttribute("opener")
-        || aTab.getAttribute("opener").indexOf(bTab.linkedPanel) == 0
+    return aTab.getAttribute("opener").indexOf(bTab.linkedPanel) == 0
         || bTab.getAttribute("opener").indexOf(aTab.linkedPanel) == 0;
+
+    /*return aTab.getAttribute("opener") == bTab.getAttribute("opener")
+        || aTab.getAttribute("opener").indexOf(bTab.linkedPanel) == 0
+        || bTab.getAttribute("opener").indexOf(aTab.linkedPanel) == 0;*/
   };
 
   //关闭标签页时选择未读标签
@@ -457,7 +460,7 @@ ntabimprovelite._tabClosingOptions = function() {
 */
 
   //Don't close the last primary window
-  
+
   TU_hookCode("gBrowser._beginRemoveTab", /\S*closeWindowWithLastTab\S*(?=;)/, ''
 +'\n    $& && (TU_getPref("extensions.ntabimprovelite.closeLastTabPref", false) || function() { '
 +'\n      var winEnum = Cc["@mozilla.org/appshell/window-mediator;1"]                           '
