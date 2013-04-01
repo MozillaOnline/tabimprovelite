@@ -29,7 +29,7 @@ function shouldSend(aPrev, aCurrent, aPercent) {
 function collectPref() {
   let ret = [];
 
-  if (!shouldSend("", "2", 10)) {
+  if (!shouldSend("2", "3", 10)) {
     return "";
   }
 
@@ -61,6 +61,7 @@ function collectPref() {
           default:
             break;
         }
+        val += 1;
       }
       ret.push(val);
     })
