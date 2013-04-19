@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/.
+   -
+   - This Source Code Form is “Incompatible With
+   - Secondary Licenses”, as defined by the Mozilla
+   - Public License, v. 2.0. -->
+
+<!DOCTYPE overlay [
+<!ENTITY % ntabimproveliteDTD SYSTEM "chrome://ntabimprovelite/locale/ntabimprovelite.dtd">
+%ntabimproveliteDTD;
+]>
+
+<overlay id="ntabimprovelite-TabsPaneOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <vbox id="tabPrefsBox">
+    <spacer height="8"/>
+    <button id="button_tuOptions"
+            label="&tuOptions.label;"
+            oncommand="openDialog('chrome://ntabimprovelite/content/preferences.xul', 'Tab Utilities', 'chrome,titlebar,toolbar,centerscreen,dialog=yes').focus();"/>
+  </vbox>
+</overlay>
+

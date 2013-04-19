@@ -1,0 +1,12 @@
+<!ENTITY NTabImproveLite.label "标签页管理器">
+<!ENTITY NTabImproveLite.toolbarbutton.label "打开标签页设置">
+<!ENTITY NTabImproveLiteContext.label "标签页管理器">
+<!ENTITY NTabImproveLiteContext.accesskey "N">
+<!ENTITY NTabImproveLiteToolbarButton.label "标签页管理器">
+<!ENTITY NTabImproveLiteToolbarButton.tooltip "新标签页管理器 !">
+<!ENTITY NTabImproveLiteSidebar.label "标签页管理器">
+<!ENTITY NTabImproveLiteToolbar.name  "标签页管理器">
+<!ENTITY NTabImproveLiteToolbar.label "This is an example toolbar. You can hide it under View &gt; toolbars &gt; &NTabImproveLiteToolbar.name;">
+
+<!ENTITY loadInBackground.disable.label "链接在前台打开(转到新页面)">
+<!ENTITY loadInBackground.enable.label "链接在后台打开(留在当前页)">

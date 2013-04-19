@@ -1,0 +1,12 @@
+<!ENTITY NTabImproveLite.label "分頁管理器">
+<!ENTITY NTabImproveLite.toolbarbutton.label "開關分頁設定">
+<!ENTITY NTabImproveLiteContext.label "分頁管理器">
+<!ENTITY NTabImproveLiteContext.accesskey "N">
+<!ENTITY NTabImproveLiteToolbarButton.label "分頁管理器">
+<!ENTITY NTabImproveLiteToolbarButton.tooltip "新分頁管理器!">
+<!ENTITY NTabImproveLiteSidebar.label "分頁管理器">
+<!ENTITY NTabImproveLiteToolbar.name  "分頁管理器">
+<!ENTITY NTabImproveLiteToolbar.label "This is an example toolbar. You can hide it under View &gt; toolbars &gt; &NTabImproveLiteToolbar.name;">
+
+<!ENTITY loadInBackground.disable.label "點連結開啟新分頁，並切換至新分頁瀏覽">
+<!ENTITY loadInBackground.enable.label "點連結開啟新分頁，但維持在目前分頁">

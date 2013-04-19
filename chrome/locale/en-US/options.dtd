@@ -1,0 +1,43 @@
+<!ENTITY prefwindow.title "Tab Improve Lite  - settings">
+<!ENTITY defaults "Restore to Default">
+<!ENTITY openTab.label "Open tab">
+<!ENTITY prefpane1.label "Preference">
+<!ENTITY openNewTabPref.label "New tab locate：">
+<!ENTITY openNTonRight.label "Open tab on right">
+<!ENTITY openNTonMostRight.label "On the most right">
+<!ENTITY clickHref.label "Click Link:">
+<!ENTITY clickHref.front "Open new tab in frontend">
+<!ENTITY clickHref.back "Open new tab in backend">
+<!ENTITY locationInput.label "Input in address bar:">
+<!ENTITY locationInput.current "Open in current tab">
+<!ENTITY locationInput.front "Open new tab in frontend">
+<!ENTITY locationInput.back "Open new tab in backend">
+<!ENTITY searchInput.label "Search input：">
+<!ENTITY searchInput.current "Open in current tab">
+<!ENTITY searchInput.front "Open new tab in frontend">
+<!ENTITY searchInput.back "Open new tab in backend">
+<!ENTITY clickMarkAndHistory.label "Click bookmark/history:">
+<!ENTITY clickMarkAndHistory.current "Open in current tab">
+<!ENTITY clickMarkAndHistory.front "Open new tab in frontend">
+<!ENTITY clickMarkAndHistory.back "Open new tab in backend">
+<!ENTITY undoTab.label "Undo:">
+<!ENTITY undoTab.origin "Open in origrin tab">
+<!ENTITY undoTab.currentRight "Open current tab right">
+<!ENTITY undoTab.allRight "Open in all right">
+<!ENTITY closeTab "Close Tab">
+<!ENTITY closeTabreturn.label "Close tab and return:">
+<!ENTITY closeTabreturn.originFather "Origin Father">
+<!ENTITY closeTabreturn.originLeft "Origin Left">
+<!ENTITY closeTabreturn.originRight "Origin Right">
+<!ENTITY closeTabreturn.allRight "Right Most">
+<!ENTITY closeTabreturn.lastSelect "Last viewed tab">
+<!ENTITY supportpref.label "Support Close:">
+<!ENTITY doubleClickPref.label "Double Left Click">
+<!ENTITY rightClickPref.label "Right Click">
+<!ENTITY middleClickPref.label "Middle Click">
+<!ENTITY closeLastTab.label "Close Last Tab:">
+<!ENTITY closeLastTab.yes "Allow">
+<!ENTITY closeLastTab.no "Forbidden">
+<!ENTITY substituteLastTab.label "When close last tab">
+<!ENTITY substituteLastTab.closeWindow "Close browser window">
+<!ENTITY substituteLastTab.substituteWithBlank "replace it with blank page">

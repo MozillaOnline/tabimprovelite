@@ -1,0 +1,49 @@
+﻿<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <Description about="urn:mozilla:install-manifest">
+
+    <em:id>tabimprovelite@mozillaonline.com</em:id>
+    <em:name>Tab Improvement Lite</em:name>
+    <em:version>2.0.0</em:version>
+    <em:description>Tabs open to the right of the current one, double click to close the tab and add an new tab button on the right side of tab bar. Open Url and search in new tabs</em:description>
+    <em:creator>Mozilla Online</em:creator>
+    <em:homepageURL>http://www.firefox.com.cn/</em:homepageURL>
+    <em:optionsURL>chrome://ntabimprovelite/content/preferences.xul</em:optionsURL>
+    <em:iconURL>chrome://ntabimprovelite/skin/icon32.png</em:iconURL>
+
+    <em:targetApplication>
+      <Description>
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>4.0</em:minVersion>
+        <em:maxVersion>22.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+
+		<em:updateURL>https://addons.myfirefox.com.tw/addons/tabimprovelite/update.rdf?version=%ITEM_VERSION%</em:updateURL>
+
+    <em:localized>
+      <Description>
+        <em:locale>zh-CN</em:locale>
+        <em:name>标签页管理器</em:name>
+        <em:description>在当前活跃标签右侧打开新标签，双击关闭标签。并在右侧添加新标签按钮。并可设置在新的标签页打开URL和搜索结果</em:description>
+        <em:creator>Mozilla Online</em:creator>
+        <em:homepageURL>http://www.firefox.com.cn/</em:homepageURL>
+      </Description>
+    </em:localized>
+
+    <em:localized>
+      <Description>
+        <em:locale>zh-TW</em:locale>
+        <em:name>分頁管理器</em:name>
+        <em:description>在目前開啟的分頁標籤右側開啟新分頁，雙擊關閉分頁。並在右側添加新分頁按钮。並可設置在新分頁打開URL和搜尋结果</em:description>
+        <em:creator>Mozilla Online</em:creator>
+      </Description>
+    </em:localized>
+  </Description>
+</RDF>

@@ -1,0 +1,29 @@
+<!ENTITY prefwindow.settings "default">
+<!ENTITY openTabFor.caption "New tab open:">
+<!ENTITY openTabNext.label "Open new tab next to closed current tab:">
+<!ENTITY none.label "None">
+<!ENTITY all.label "All">
+<!ENTITY noneBut.label "Link Only">
+<!ENTITY keepOrder.label "Continuing open background tab as orginal">
+<!ENTITY loadInBackground.caption "Activate following new tab:">
+<!ENTITY loadInBackground.label "Link">
+<!ENTITY loadDivertedInBackground.label "New Window Link">
+<!ENTITY selectOnClose.label "Close current tab and activate as following sequence:">
+<!ENTITY relatedTabs.label "Related Tab">
+<!ENTITY relatedTabs.tooltip "Partent,child or brother Tab(Right First)">
+<!ENTITY leftTab.label "Left Side Tab">
+<!ENTITY rightTab.label "Right Side Tab">
+<!ENTITY firstTab.label "First Tab">
+<!ENTITY lastTab.label "Last Tab">
+<!ENTITY lastSelectedTab.label "Last Selected Tab">
+<!ENTITY openNewWindow.caption "Link Location">
+<!ENTITY openNewWindow.label "Open New Window:">
+<!ENTITY openExternal.label "External Link Open to:">
+<!ENTITY openNewWindow.1.label "Current Tab">
+<!ENTITY openNewWindow.2.label "New Window">
+<!ENTITY openNewWindow.3.label "New Tab">
+<!ENTITY openNewWindowRestriction.label "Except:">
+<!ENTITY openNewWindowRestriction.0.label "None">
+<!ENTITY openNewWindowRestriction.1.label "All">
+<!ENTITY openNewWindowRestriction.2.label "Fixed Size Popup">
+<!ENTITY openExternalInTab.label "Open external link in new tab">

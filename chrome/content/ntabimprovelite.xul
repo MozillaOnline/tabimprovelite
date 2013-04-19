@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/.
+   -
+   - This Source Code Form is “Incompatible With
+   - Secondary Licenses”, as defined by the Mozilla
+   - Public License, v. 2.0. -->
+
+<?xml-stylesheet href="chrome://ntabimprovelite/skin/ntabimprovelite.css" type="text/css"?>
+
+<!DOCTYPE overlay [
+<!ENTITY % browserDTD SYSTEM "chrome://browser/locale/browser.dtd" >
+%browserDTD;
+<!ENTITY % tabBrowserDTD SYSTEM "chrome://browser/locale/tabbrowser.dtd" >
+%tabBrowserDTD;
+<!ENTITY % overlayDTD SYSTEM "chrome://ntabimprovelite/locale/overlay.dtd">
+%overlayDTD;
+<!ENTITY % optionsDTD SYSTEM "chrome://ntabimprovelite/locale/options.dtd">
+%optionsDTD;
+<!ENTITY % ntabimproveliteDTD SYSTEM "chrome://ntabimprovelite/locale/ntabimprovelite.dtd">
+%ntabimproveliteDTD;
+]>
+
+<overlay id="ntabimprovelite-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/x-javascript" src="tulib.js"/>
+  <script type="application/x-javascript" src="userInterface.js"/>
+  <script type="application/x-javascript" src="ntabimprovelite.js"/>
+
+  <menupopup id="menu_ToolsPopup">
+    <menuitem id="NTabImproveLite-hello" label="&NTabImproveLite.label;"
+              oncommand="ceTabImproveLite.onMenuItemCommand();"/>
+  </menupopup>
+
+  <toolbarpalette id="BrowserToolbarPalette">
+    <toolbarbutton id="ntabimprove" label="&NTabImproveLite.toolbarbutton.label;" type="button" tooltiptext="&NTabImproveLite.toolbarbutton.label;"
+                   class="toolbarbutton-1 toolbarbutton-ce" >
+    </toolbarbutton>
+  </toolbarpalette>
+  <popupset id="mainPopupSet">
+      <menupopup id="ntabimprove_Popup" onpopupshowing="ceTabImproveLite.onpopupshowing();" onpopuphiding="ceTabImproveLite.onpopuphiding()">
+        <menuitem id="ntabimprove_closetab_dblclick" label="&doubleClickPref.label; &closeTab;" type="checkbox" checked="true"/>
+        <menuitem id="ntabimprove_closetab_mclick" label="&middleClickPref.label; &closeTab;" type="checkbox" checked="true"/>
+        <menuitem id="ntabimprove_closetab_rclick" label="&rightClickPref.label; &closeTab;" type="checkbox" checked="true"/>
+        <menuseparator/>
+        <menuitem id="ntabimprove_loadInBackground_disable" label="&loadInBackground.disable.label;" type="radio" checked="true"/>
+        <menuitem id="ntabimprove_loadInBackground_enable" label="&loadInBackground.enable.label;" type="radio" checked="true"/>
+        <menuseparator/>
+        <menuitem id="ntabimprove_setting" label="&tuOptions.label;" oncommand="ceTabImproveLite.onMenuItemCommand();" />
+      </menupopup>
+  </popupset>
+</overlay>
+

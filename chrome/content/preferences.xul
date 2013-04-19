@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/.
+   -
+   - This Source Code Form is “Incompatible With
+   - Secondary Licenses”, as defined by the Mozilla
+   - Public License, v. 2.0. -->
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://ntabimprovelite/skin/preferences.css" type="text/css"?>
+
+<!DOCTYPE prefwindow [
+<!ENTITY % browserDTD SYSTEM "chrome://browser/locale/browser.dtd" >
+%browserDTD;
+<!ENTITY % preferencesDTD SYSTEM "chrome://ntabimprovelite/locale/preferences.dtd">
+%preferencesDTD;
+<!ENTITY % optionsDTD SYSTEM "chrome://ntabimprovelite/locale/options.dtd">
+%optionsDTD;
+]>
+<prefwindow id="NTabImproveLite-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&prefwindow.title;"
+  onload="onLoad();" buttons="accept,cancel,extra2" buttonlabelextra2="&defaults;" ondialogextra2="onDefault();">
+  <script type="application/x-javascript" src="chrome://ntabimprovelite/content/preferences.js"/>
+  <prefpane id="prefpane1" label="&prefpane1.label;">
+    <preferences>
+      <preference id="openNewTabPref" name="extensions.ntabimprovelite.openTabNext" type="int"/>
+      <preference id="clickHrefPref" name="browser.tabs.loadDivertedInBackground" type="bool"/>
+      <preference id="locationInputPref" name="extensions.ntabimprovelite.locationInputPref" type="int"/>
+      <preference id="searchInputPref" name="extensions.ntabimprovelite.searchInputPref" type="int"/>
+      <preference id="clickMarkAndHistoryPref" name="extensions.ntabimprovelite.clickMarkAndHistoryPref" type="int"/>
+      <preference id="closeTabreturnPref" name="extensions.ntabimprovelite.selectOnClose" type="int"/>
+      <preference id="doubleClickPref" name="extensions.ntabimprovelite.doubleClickPref" type="bool"/>
+      <preference id="middleClickPref" name="extensions.ntabimprovelite.middleClickPref" type="bool"/>
+      <preference id="rightClickPref" name="extensions.ntabimprovelite.rightClickPref" type="bool"/>
+      <preference id="closeLastTabPref" name="extensions.ntabimprovelite.closeLastTabPref" type="bool"/>
+      <preference id="closeWindowWithLastTabPref" name="browser.tabs.closeWindowWithLastTab" type="bool"/>
+
+      <preference id="openNewTabPrefRelated" name="browser.tabs.insertRelatedAfterCurrent" type="bool"/>
+      <preference id="searchInputPrefRelated" name="browser.search.openintab" type="bool"/>
+      <preference id="clickMarkAndHistoryPrefRelated" name="browser.tabs.loadBookmarksInBackground" type="bool"/>
+    </preferences>
+    <groupbox id="opentab">
+    <caption label="&openTab.label;"/>
+    <grid>
+      <columns>
+        <column/>
+        <column/>
+      </columns>
+      <rows>
+        <row>
+          <label>&openNewTabPref.label;</label>
+          <menulist id="openNT" preference="openNewTabPref">
+            <menupopup>
+              <menuitem id="openNTonRight" value="1" label="&openNTonRight.label;"/>
+              <menuitem id="openNTonMostRight" value="0" label="&openNTonMostRight.label;"/>
+            </menupopup>
+          </menulist>
+        </row>
+        <row>
+          <label>&clickHref.label;</label>
+          <menulist id="clickHref" preference="clickHrefPref">
+            <menupopup>
+              <menuitem id="clickHref.front" value="false" label="&clickHref.front;"/>
+              <menuitem id="clickHref.back" value="true" label="&clickHref.back;"/>
+            </menupopup>
+          </menulist>
+        </row>
+        <row>
+          <label>&locationInput.label;</label>
+          <menulist id="locationInput" preference="locationInputPref">
+            <menupopup>
+              <menuitem id="locationInput.current" value="1" label="&locationInput.current;"/>
+              <menuitem id="locationInput.front" value="2" label="&locationInput.front;"/>
+              <menuitem id="locationInput.back" value="3" label="&locationInput.back;"/>
+            </menupopup>
+          </menulist>
+        </row>
+        <row>
+          <label>&searchInput.label;</label>
+          <menulist id="searchInput" preference="searchInputPref">
+            <menupopup>
+              <menuitem id="searchInput.current" value="1" label="&searchInput.current;"/>
+              <menuitem id="searchInput.front" value="2" label="&searchInput.front;"/>
+              <menuitem id="searchInput.back" value="3" label="&searchInput.back;"/>
+            </menupopup>
+          </menulist>
+        </row>
+        <row>
+          <label>&clickMarkAndHistory.label;</label>
+          <menulist id="clickMarkAndHistory" preference="clickMarkAndHistoryPref">
+            <menupopup>
+              <menuitem id="clickMarkAndHistory.current" value="1" label="&clickMarkAndHistory.current;"/>
+              <menuitem id="clickMarkAndHistory.front" value="2" label="&clickMarkAndHistory.front;"/>
+              <menuitem id="clickMarkAndHistory.back" value="3" label="&clickMarkAndHistory.back;"/>
+            </menupopup>
+          </menulist>
+        </row>
+      </rows>
+    </grid>
+    </groupbox>
+    <groupbox id="closetab">
+    <caption label="&closeTab;"/>
+    <grid>
+      <columns>
+        <column/>
+        <column/>
+        <column/>
+      </columns>
+      <rows>
+        <row>
+          <label>&closeTabreturn.label;</label>
+          <menulist id="closeTabreturn" preference="closeTabreturnPref">
+            <menupopup>
+              <menuitem id="closeTabreturn.originFather" value="64" label="&closeTabreturn.originFather;"/>
+              <menuitem id="closeTabreturn.originLeft" value="1" label="&closeTabreturn.originLeft;"/>
+              <menuitem id="closeTabreturn.originRight" value="2" label="&closeTabreturn.originRight;"/>
+              <menuitem id="closeTabreturn.allRight" value="8" label="&closeTabreturn.allRight;"/>
+              <menuitem id="closeTabreturn.lastSelect" value="16" label="&closeTabreturn.lastSelect;"/>
+            </menupopup>
+          </menulist>
+        </row>
+        <row>
+          <label>&supportpref.label;</label>
+          <checkbox id="checkboolpref1" preference="doubleClickPref" label="&doubleClickPref.label;"/>
+          <checkbox id="checkboolpref2" preference="rightClickPref" label="&rightClickPref.label;"/>
+        </row>
+        <row>
+          <label></label>
+          <checkbox id="checkboolpref3" preference="middleClickPref" label="&middleClickPref.label;"/>
+        </row>
+        <radiogroup id="closeLastTab" preference="closeLastTabPref">
+          <row>
+            <label>&closeLastTab.label;</label>
+            <radio id="closeLastTab.yes" label="&closeLastTab.yes;" value="true"/>
+            <radio id="closeLastTab.no" label="&closeLastTab.no;" value="false"/>
+          </row>
+        </radiogroup>
+        <radiogroup id="substituteLastTab" preference="closeWindowWithLastTabPref">
+          <row>
+            <label>&substituteLastTab.label;</label>
+            <radio id="substituteLastTab.closeWindow" label="&substituteLastTab.closeWindow;" value="true"/>
+            <radio id="substituteLastTab.substituteWithBlank" label="&substituteLastTab.substituteWithBlank;" value="false"/>
+          </row>
+        </radiogroup>
+      </rows>
+    </grid>
+    </groupbox>
+  </prefpane>
+</prefwindow>
+
