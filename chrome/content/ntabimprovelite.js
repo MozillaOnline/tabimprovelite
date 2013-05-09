@@ -417,8 +417,7 @@ var ceTabImproveLite = {
       if (!bTab)
         bTab = this.mCurrentTab;
 
-      return aTab.getAttribute("opener").indexOf(bTab.linkedPanel) == 0
-          || bTab.getAttribute("opener").indexOf(aTab.linkedPanel) == 0;
+      return bTab.getAttribute("opener").indexOf(aTab.linkedPanel) == 0;
     };
 
     // 关闭标签页时选择上次浏览的标签
