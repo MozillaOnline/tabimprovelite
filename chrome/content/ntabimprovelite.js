@@ -405,8 +405,7 @@ ntabimprovelite._tabClosingOptions = function() {
     if (!bTab)
       bTab = this.mCurrentTab;
 
-    return aTab.getAttribute("opener").indexOf(bTab.linkedPanel) == 0
-        || bTab.getAttribute("opener").indexOf(aTab.linkedPanel) == 0;
+    return bTab.getAttribute("opener").indexOf(aTab.linkedPanel) == 0;
 
     /*return aTab.getAttribute("opener") == bTab.getAttribute("opener")
         || aTab.getAttribute("opener").indexOf(bTab.linkedPanel) == 0
