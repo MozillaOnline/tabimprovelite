@@ -10,6 +10,7 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
     <em:id>tabimprovelite@mozillaonline.com</em:id>
     <em:name>Tab Improvement Lite</em:name>
+    <em:type>2</em:type>
     <em:version>2.0.1</em:version>
     <em:description>Tabs open to the right of the current one, double click to close the tab and add an new tab button on the right side of tab bar. Open Url and search in new tabs</em:description>
     <em:creator>Mozilla Online</em:creator>
@@ -24,8 +25,6 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
         <em:maxVersion>22.*</em:maxVersion>
       </Description>
     </em:targetApplication>
-
-		<em:updateURL>https://addons.myfirefox.com.tw/addons/tabimprovelite/update.rdf?version=%ITEM_VERSION%</em:updateURL>
 
     <em:localized>
       <Description>
