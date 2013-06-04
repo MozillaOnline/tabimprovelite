@@ -1,24 +1,32 @@
-function updatesubstituteLastTabStatus() {
-	document.getElementById("substituteLastTab").disabled = document.getElementById("closeLastTab.no").selected;
-	if (document.getElementById("closeLastTab.no").selected) {
-		document.getElementById("substituteLastTab").selectedItem = document.getElementById("substituteLastTab.closeWindow");
-		var evt = document.createEvent("Events");
-		evt.initEvent("change", true, false);
-		document.getElementById("substituteLastTab").dispatchEvent(evt);
-	}
-} 
+var $ = document.getElementById.bind(document);
+
+function updatesubstituteLastTabStatus(evt) {
+  var closeLastTab = evt ? evt.target.value : $("closeLastTabPref").value;
+  var closeWindowWithLastTabPref = $("closeWindowWithLastTabPref");
+  closeWindowWithLastTabPref.disabled = !closeLastTab;
+  if (!closeLastTab) {
+    closeWindowWithLastTabPref.value = true;
+  }
+}
 
 function onDefault() {
   var preferences = document.getElementsByTagName("preference");
   for (var i = 0; i < preferences.length; i++) {
-	preferences[i].value = preferences[i].defaultValue;
+    preferences[i].value = preferences[i].defaultValue;
   }
-  updatesubstituteLastTabStatus();
 }
-	
+
 function onLoad() {
-	updatesubstituteLastTabStatus();
-	var closeLastTab = document.getElementById("closeLastTab.no");
-	closeLastTab.addEventListener("RadioStateChange", updatesubstituteLastTabStatus, false);
-	return true;
+  updatesubstituteLastTabStatus();
+
+  $("openNewTabPref").addEventListener("change", function(evt) {
+    $("openNewTabPrefRelated").value = !!evt.target.value;
+  }, false);
+  $("searchInputPref").addEventListener("change", function(evt) {
+    $("searchInputPrefRelated").value = evt.target.value != 1;
+  }, false);
+  $("clickMarkAndHistoryPref").addEventListener("change", function(evt) {
+    $("clickMarkAndHistoryPrefRelated").value = evt.target.value == 3;
+  }, false);
+  $("closeLastTabPref").addEventListener("change", updatesubstituteLastTabStatus, false);
 }

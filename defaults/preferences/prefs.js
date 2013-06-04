@@ -9,6 +9,7 @@ pref("extensions.ntabimprovelite.openExternalInTab", false);
 pref("browser.tabs.insertRelatedAfterCurrent", true);
 pref("browser.tabs.selectOwnerOnClose", false);
 pref("browser.link.open_external", 3);
+pref("browser.search.openintab", true);
 
 pref("browser.tabs.loadDivertedInBackground", false);
 pref("extensions.ntabimprovelite.locationInputPref", 1);

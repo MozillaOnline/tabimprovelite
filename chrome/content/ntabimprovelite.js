@@ -43,7 +43,6 @@ var ntabimprovelite = {
     this._openLinkInTab();
     this._tabOpeningOptions();
     this._tabClosingOptions();
-    this._sendStats();
   },
 
   get _eTLDService() {
@@ -130,11 +129,18 @@ ntabimprovelite._tabEventListeners = {
     TU_hookCode("gBrowser.addTab",
       ["{", "if (!aURI) aURI = 'about:blank';"],
       [/(?=.*dispatchEvent.*)/, function() {
+        var caller = Components.stack.caller;
+        while (caller) {
+          if (caller.name) {
+            break;
+          }
+          caller = caller.caller;
+        }
         t.arguments = {
           aURI: aURI,
           aReferrerURI: aReferrerURI,
           aRelatedToCurrent: aRelatedToCurrent,
-          caller: Components.stack.caller && Components.stack.caller.name //arguments.callee.caller && arguments.callee.caller.name
+          caller: caller && caller.name
         };
       }]
     );
@@ -211,7 +217,6 @@ ntabimprovelite._openUILinkInTab = function() {
   //搜索栏回车键
   if (BrowserSearch.searchBar)
   TU_hookCode("BrowserSearch.searchBar.handleSearchCommand",
-    [/(\(aEvent && aEvent.altKey\)) \^ (newTabPref)/, "($1 || $2) && !($1 && $2)"],
     [/"tab"/, "(TU_getPref('extensions.ntabimprovelite.searchInputPref', 2)==3) ? 'background' : 'foreground'"]
   );
 
@@ -222,17 +227,17 @@ ntabimprovelite._openUILinkInTab = function() {
 ntabimprovelite._openLinkInTab = function() {
 
   //强制在新标签页打开外部链接
-  TU_hookCode("contentAreaClick", /if[^{}]*event.button == 0[^{}]*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*(?=})/, "$&" + <![CDATA[
-    if (TU_getPref("extensions.ntabimprovelite.openExternalInTab", false)) {
-      let ourDomain = ntabimprovelite.getDomainFromURI(linkNode.ownerDocument.documentURIObject);
-      let otherDomain = ntabimprovelite.getDomainFromURI(makeURI(linkNode.href));
-      if (ourDomain && otherDomain && ourDomain != otherDomain) {
-        openNewTabWith(linkNode.href, linkNode.ownerDocument, null, event, false);
-        event.preventDefault();
-        return false;
-      }
-    }
-  ]]>);
+  TU_hookCode("contentAreaClick", /if[^{}]*event.button == 0[^{}]*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*(?=})/, "$&"
++'\n    if (TU_getPref("extensions.ntabimprovelite.openExternalInTab", false)) {                         '
++'\n      let ourDomain = ntabimprovelite.getDomainFromURI(linkNode.ownerDocument.documentURIObject);    '
++'\n      let otherDomain = ntabimprovelite.getDomainFromURI(makeURI(linkNode.href));                    '
++'\n      if (ourDomain && otherDomain && ourDomain != otherDomain) {                                    '
++'\n        openNewTabWith(linkNode.href, linkNode.ownerDocument, null, event, false);                   '
++'\n        event.preventDefault();                                                                      '
++'\n        return false;                                                                                '
++'\n      }                                                                                              '
++'\n    }                                                                                                '
+);
 
   //外来链接
   TU_hookCode("nsBrowserAccess.prototype.openURI", /\S*getIntPref\S*/, 'isExternal ? TU_getPref("browser.link.open_external", 3) : $&');
@@ -248,7 +253,7 @@ ntabimprovelite._tabOpeningOptions = function() {
   TU_hookCode("gBrowser.addTab",
     [/\S*insertRelatedAfterCurrent\S*(?=\))/, "false"],
     [/(?=(return t;)(?![\s\S]*\1))/, function() {
-      if (t.arguments.caller != "sss_restoreWindow" && !t.hasAttribute("pinned") && function() {
+      if (["sss_restoreWindow", "ssi_restoreWindow"].indexOf(t.arguments.caller) == -1 && !t.hasAttribute("pinned") && function() {
         switch (TU_getPref("extensions.ntabimprovelite.openTabNext", 1)) {
           case 1: return true; //All
           case 2: return aRelatedToCurrent != false; //All but New Tab
@@ -380,7 +385,7 @@ ntabimprovelite._tabClosingOptions = function() {
 
   //关闭标签页时选择亲属标签
   TU_hookCode("gBrowser.onTabOpen", "}", function() {
-    if (tab.arguments.caller != "sss_restoreWindow")
+    if (["sss_restoreWindow", "ssi_restoreWindow"].indexOf(tab.arguments.caller) == -1)
       tab.setAttribute("opener", this.mCurrentTab.linkedPanel);
   });
 
@@ -400,9 +405,11 @@ ntabimprovelite._tabClosingOptions = function() {
     if (!bTab)
       bTab = this.mCurrentTab;
 
-    return aTab.getAttribute("opener") == bTab.getAttribute("opener")
+    return bTab.getAttribute("opener").indexOf(aTab.linkedPanel) == 0;
+
+    /*return aTab.getAttribute("opener") == bTab.getAttribute("opener")
         || aTab.getAttribute("opener").indexOf(bTab.linkedPanel) == 0
-        || bTab.getAttribute("opener").indexOf(aTab.linkedPanel) == 0;
+        || bTab.getAttribute("opener").indexOf(aTab.linkedPanel) == 0;*/
   };
 
   //关闭标签页时选择未读标签
@@ -452,75 +459,21 @@ ntabimprovelite._tabClosingOptions = function() {
 */
 
   //Don't close the last primary window
-  TU_hookCode("gBrowser._beginRemoveTab", /\S*closeWindowWithLastTab\S*(?=;)/, <![CDATA[
-    $& && (TU_getPref("extensions.ntabimprovelite.closeLastTabPref", false) || function() {
-      var winEnum = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator).getEnumerator("navigator:browser");
-      while (winEnum.hasMoreElements()) {
-        var win = winEnum.getNext();
-        if (win != window && win.toolbar.visible)
-          return win;
-      }
-      return null;
-    }())
-  ]]>);
+
+  TU_hookCode("gBrowser._beginRemoveTab", /\S*closeWindowWithLastTab\S*(?=;)/, ''
++'\n    $& && (TU_getPref("extensions.ntabimprovelite.closeLastTabPref", false) || function() { '
++'\n      var winEnum = Cc["@mozilla.org/appshell/window-mediator;1"]                           '
++'\n          .getService(Ci.nsIWindowMediator).getEnumerator("navigator:browser");             '
++'\n      while (winEnum.hasMoreElements()) {                                                   '
++'\n        var win = winEnum.getNext();                                                        '
++'\n        if (win != window && win.toolbar.visible)                                           '
++'\n          return win;                                                                       '
++'\n      }                                                                                     '
++'\n      return null;                                                                          '
++'\n    }())                                                                                    '
+);
 
   if (!TU_getPref("extensions.ntabimprovelite.closeLastTabPref", false)) {
     gPrefService.setBoolPref("browser.tabs.closeWindowWithLastTab", true);
   }
 };
-
-ntabimprovelite._sendStats = function() {
-  var usageSampleKey = 'extensions.ntabimprovelite.usageSample';
-  var prefBranch =
-      Components.classes['@mozilla.org/preferences-service;1']
-                .getService(Components.interfaces.nsIPrefBranch);
-  if (prefBranch.prefHasUserValue(usageSampleKey)) {
-    return;
-  }
-  var random = Math.random();
-  prefBranch.setCharPref(usageSampleKey, random);
-  if (random >= 0.01) {
-    return;
-  }
-  var sample = 0;
-  ['extensions.ntabimprovelite.openHomepageInTab',
-   'extensions.ntabimprovelite.openTabNext',
-   'extensions.ntabimprovelite.openTabNext.keepOrder',
-   'extensions.ntabimprovelite.openExternalInTab',
-   'browser.tabs.insertRelatedAfterCurrent',
-   'browser.tabs.selectOwnerOnClose',
-   'browser.tabs.loadDivertedInBackground',
-   'extensions.ntabimprovelite.locationInputPref',
-   'extensions.ntabimprovelite.searchInputPref',
-   'extensions.ntabimprovelite.clickMarkAndHistoryPref',
-   'extensions.ntabimprovelite.closeTabreturnPref',
-   'extensions.ntabimprovelite.doubleClickPref',
-   'extensions.ntabimprovelite.middleClickPref',
-   'extensions.ntabimprovelite.rightClickPref',
-   'extensions.ntabimprovelite.closeLastTabPref'].forEach(function(prefKey) {
-    var val = 0;
-    if (prefBranch.prefHasUserValue(prefKey)) {
-      switch (prefBranch.getPrefType(prefKey)) {
-        case prefBranch.PREF_BOOL:
-          val = prefBranch.getBoolPref(prefKey) ? 1 : 0;
-          break;
-        case prefBranch.PREF_INT:
-          val = prefBranch.getIntPref(prefKey);
-          break;
-        default:
-          break;
-      }
-      val += 1;
-    }
-    sample += val;
-    sample *= 10;
-  })
-  var prefKey = 'extensions.ntabimprovelite.selectOnClose';
-  if (prefBranch.prefHasUserValue(prefKey)) {
-    sample += Math.log(prefBranch.getIntPref(prefKey)) / Math.log(2) + 1;
-  }
-  var img = new Image();
-  img.src = 'http://addons.g-fox.cn/tabimprovelite.gif'
-          + '?r=' + Math.random()
-          + '&sample=' + sample;
-}

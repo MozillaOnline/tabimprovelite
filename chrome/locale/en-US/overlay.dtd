@@ -7,5 +7,5 @@
 <!ENTITY NTabImproveLiteToolbar.name  "Tab Improve Lite">
 <!ENTITY NTabImproveLiteToolbar.label "This is an example toolbar. You can hide it under View &gt; toolbars &gt; &NTabImproveLiteToolbar.name;">
 
-<!ENTITY loadInBackground.disable.label "Open New Tab Background">
-<!ENTITY loadInBackground.enable.label "Open New Tab Foreground">
+<!ENTITY loadInBackground.disable.label "Open New Tab Foreground">
+<!ENTITY loadInBackground.enable.label "Open New Tab Background">
