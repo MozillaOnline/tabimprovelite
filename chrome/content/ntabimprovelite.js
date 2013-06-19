@@ -470,6 +470,10 @@ if (typeof ceTabImproveLite == "undefined") {
     },
 
     _sendStats: function() {
+      // getDataChoices
+      if(! Application.prefs.getValue("extensions.tpmanager.tracking.enabled",false))
+        return;
+
       var usageSampleKey = 'extensions.ntabimprovelite.usageSample';
       var prefBranch =
           Components.classes['@mozilla.org/preferences-service;1']
