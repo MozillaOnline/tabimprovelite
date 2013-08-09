@@ -8,12 +8,12 @@ var ntabimprovelite = {
     var dbl = Application.prefs.getValue("extensions.ntabimprovelite.doubleClickPref", false);
     var m = Application.prefs.getValue("extensions.ntabimprovelite.middleClickPref", false);
     var r = Application.prefs.getValue("extensions.ntabimprovelite.rightClickPref", false);
-    document.getElementById("ntabimprove_closetab_dblclick").setAttribute("checked",dbl?"true":"false");
-    document.getElementById("ntabimprove_closetab_mclick").setAttribute("checked",m?"true":"false");
-    document.getElementById("ntabimprove_closetab_rclick").setAttribute("checked",r?"true":"false");
+    document.getElementById("ntabimprove_closetab_dblclick").setAttribute("checked", dbl?"true":"false");
+    document.getElementById("ntabimprove_closetab_mclick").setAttribute("checked", m?"true":"false");
+    document.getElementById("ntabimprove_closetab_rclick").setAttribute("checked", r?"true":"false");
     var otbg = Application.prefs.getValue("browser.tabs.loadDivertedInBackground", true);
-    document.getElementById("ntabimprove_loadInBackground_disable").setAttribute("checked",otbg?"false":"true");
-    document.getElementById("ntabimprove_loadInBackground_enable").setAttribute("checked",otbg?"true":"false");
+    document.getElementById("ntabimprove_loadInBackground_disable").setAttribute("checked", otbg?"false":"true");
+    document.getElementById("ntabimprove_loadInBackground_enable").setAttribute("checked", otbg?"true":"false");
   },
 
   onpopuphiding: function ntabimprovelite__onpopuphiding() {
@@ -26,19 +26,72 @@ var ntabimprovelite = {
     var otbg = (document.getElementById("ntabimprove_loadInBackground_enable").getAttribute("checked") == "true")
     Application.prefs.setValue("browser.tabs.loadDivertedInBackground", otbg);
 
-    setTimeout(function(){
+    setTimeout(function() {
       document.getElementById("ntabimprove_closetab_dblclick").removeAttribute("checked");
       document.getElementById("ntabimprove_closetab_mclick").removeAttribute("checked");
       document.getElementById("ntabimprove_closetab_rclick").removeAttribute("checked");
       document.getElementById("ntabimprove_loadInBackground_disable").removeAttribute("checked");
       document.getElementById("ntabimprove_loadInBackground_enable").removeAttribute("checked");
-    },100);
+    }, 100);
+  },
+
+  initNow: function ntabimprovelite__initNow() {
+    if(this.initDone)
+      return;
+    this.initDone = true;
+
+    this.init();
+    this.installButton("ntabimprove");
+    this.initUI();
+    var toolbox = document.getElementById("navigator-toolbox");
+    toolbox.addEventListener("aftercustomization", this, false)
+  },
+
+  initDone: false,
+
+  initLater: function ntabimprovelite__initLater() {
+    var self = this;
+    self.initDone = false;
+    var navbar = document.getElementById("nav-bar");
+    if(!navbar)
+      return;
+
+    if (window.MutationObserver) {
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type != 'attributes' ||
+              mutation.attributeName != 'currentset') {
+            return;
+          }
+
+          if (!!document.getElementById("urlbar-container")) {
+            self.initNow();
+          }
+        });
+      });
+
+      var config = {
+        attributes: true,
+        attributeOldValue: true,
+        attributeFilter: ['currentset']
+      };
+      observer.observe(navbar, config);
+    } else {
+      navbar.addEventListener("DOMAttrModified", function(evt) {
+        if (evt.type == "DOMAttrModified" &&
+            evt.attrName == "currentset") {
+          if (!!document.getElementById("urlbar-container")) {
+            self.initNow();
+          }
+        }
+      }, false);
+    }
   },
 
   init: function ntabimprovelite__init() {
     gBrowser = gBrowser || getBrowser();  //Compatibility with Firefox 3.0
-
     this._tabEventListeners.init();
+
     this._openUILinkInTab();
     this._openLinkInTab();
     this._tabOpeningOptions();
@@ -50,7 +103,7 @@ var ntabimprovelite = {
     return this._eTLDService = Cc["@mozilla.org/network/effective-tld-service;1"].getService(Ci.nsIEffectiveTLDService);
   },
 
-  installButton: function ntabimprovelite__installButton(buttonId,toolbarId) {
+  installButton: function ntabimprovelite__installButton(buttonId, toolbarId) {
     toolbarId = toolbarId || "addon-bar";
     var key = "extensions.toolbarbutton.installed."+buttonId;
     if(Application.prefs.getValue(key, false))
@@ -58,14 +111,14 @@ var ntabimprovelite = {
 
     var toolbar = window.document.getElementById(toolbarId);
     let curSet = toolbar.currentSet;
-    if (-1 == curSet.indexOf(buttonId)){
+    if (-1 == curSet.indexOf(buttonId)) {
       let newSet = curSet + "," + buttonId;
       toolbar.currentSet = newSet;
       toolbar.setAttribute("currentset", newSet);
       document.persist(toolbar.id, "currentset");
       try{
         BrowserToolboxCustomizeDone(true);
-      }catch(e){}
+      }catch(e) {}
     }
     if (toolbar.getAttribute("collapsed") == "true") {
       toolbar.setAttribute("collapsed", "false");
@@ -74,16 +127,16 @@ var ntabimprovelite = {
     Application.prefs.setValue(key, true);
   },
 
-  bindPopup: function ntabimprovelite__bindPopup(buttonId,menuId){
+  bindPopup: function ntabimprovelite__bindPopup(buttonId, menuId) {
     var button = document.getElementById(buttonId)
     if(!button)
       return;
     var menu = document.getElementById(menuId)
-    button.addEventListener("mousedown",function(aEvent){
-      if (aEvent.button != 0 )
+    button.addEventListener("mousedown", function(aEvent) {
+      if(aEvent.button != 0 )
         return;
       menu.openPopup(button, "before_start", 0, 0, false, false, aEvent);
-    },false);
+    }, false);
   },
 
   getDomainFromURI: function ntabimprovelite__getDomainFromURI(aURI) {
@@ -101,14 +154,12 @@ var ntabimprovelite = {
   handleEvent: function ntabimprovelite__handleEvent(event) {
     window.removeEventListener(event.type, this, false);
     switch (event.type) {
-      case "DOMContentLoaded":
-        this.init();
-        break;
       case "load":
-        this.installButton("ntabimprove");
-        this.initUI();
-        var toolbox = document.getElementById("navigator-toolbox");
-        toolbox.addEventListener("aftercustomization",this,false)
+        if (!!document.getElementById("urlbar-container")) {
+          this.initNow();
+        } else {
+          this.initLater();
+        }
         break;
       case "aftercustomization":
         this.initUI();
@@ -116,12 +167,11 @@ var ntabimprovelite = {
     }
   },
 
-  initUI: function ntabimprovelite__initUI(){
-    this.bindPopup("ntabimprove","ntabimprove_Popup");
+  initUI: function ntabimprovelite__initUI() {
+    this.bindPopup("ntabimprove", "ntabimprove_Popup");
   },
 
 };
-window.addEventListener("DOMContentLoaded", ntabimprovelite, false);
 window.addEventListener("load", ntabimprovelite, false);
 
 ntabimprovelite._tabEventListeners = {
@@ -145,10 +195,7 @@ ntabimprovelite._tabEventListeners = {
       }]
     );
 
-    gBrowser.onTabOpen = function onTabOpen(event) {
-      var tab = event.target;
-    };
-
+    gBrowser.onTabOpen = function onTabOpen(event) {var tab = event.target;};
     gBrowser.onTabMove = function onTabMove(event) {var tab = event.target;};
     gBrowser.onTabClose = function onTabClose(event) {var tab = event.target;};
     gBrowser.onTabSelect = function onTabSelect(event) {var tab = event.target;};
@@ -177,15 +224,27 @@ ntabimprovelite._tabEventListeners = {
 
   handleEvent: function(event) {
     switch (event.type) {
-      case "load": this.init();break;
-      case "unload": this.uninit();break;
-      case "TabOpen": gBrowser.onTabOpen(event);break;
-      case "TabMove": gBrowser.onTabMove(event);break;
-      case "TabClose": gBrowser.onTabClose(event);break;
-      case "TabSelect": gBrowser.onTabSelect(event);break;
-      case "SSTabRestoring": gBrowser.onTabRestoring(event);break;
-      case "SSTabRestored": gBrowser.onTabRestored(event);break;
-      case "SSTabClosing": gBrowser.onTabClosing(event);break;
+      case "TabOpen":
+        gBrowser.onTabOpen(event);
+        break;
+      case "TabMove":
+        gBrowser.onTabMove(event);
+        break;
+      case "TabClose":
+        gBrowser.onTabClose(event);
+        break;
+      case "TabSelect":
+        gBrowser.onTabSelect(event);
+        break;
+      case "SSTabRestoring":
+        gBrowser.onTabRestoring(event);
+        break;
+      case "SSTabRestored":
+        gBrowser.onTabRestored(event);
+        break;
+      case "SSTabClosing":
+        gBrowser.onTabClosing(event);
+        break;
     }
   }
 };
@@ -197,6 +256,7 @@ ntabimprovelite._openUILinkInTab = function() {
   BrowserHome = BrowserGoHome;
 */
   //地址栏回车键
+
   TU_hookCode("gURLBar.handleCommand",
     [/((aTriggeringEvent)\s*&&\s*(aTriggeringEvent.altKey))(?![\s\S]*\1)/, "let (newTabPref = (TU_getPref('extensions.ntabimprovelite.locationInputPref', 2)!=1)) ($1 || newTabPref) && !(($2 ? $3 : false) && newTabPref)"],
     [/(?=\n.*openUILink\b[\s\S]*?([^{}]*)\n.*loadOneTab.*)/, "$1"], //Fx 3.6
@@ -215,9 +275,9 @@ ntabimprovelite._openUILinkInTab = function() {
     ["aTriggeringEvent.stopPropagation();", ""]
   );
   //搜索栏回车键
-  if (BrowserSearch.searchBar)
-  TU_hookCode("BrowserSearch.searchBar.handleSearchCommand",
-    [/"tab"/, "(TU_getPref('extensions.ntabimprovelite.searchInputPref', 2)==3) ? 'background' : 'foreground'"]
+  if(BrowserSearch.searchBar)
+    TU_hookCode("BrowserSearch.searchBar.handleSearchCommand",
+                [/"tab"/, "(TU_getPref('extensions.ntabimprovelite.searchInputPref', 2)==3) ? 'background' : 'foreground'"]
   );
 
 
@@ -279,18 +339,18 @@ ntabimprovelite._tabOpeningOptions = function() {
 
 
   TU_hookCode("gBrowser.moveTabTo", "{", function() {
-    if (aIndex < 0)
+    if(aIndex < 0)
       aIndex = 0;
-    else if (aIndex >= this.mTabs.length)
+    else if(aIndex >= this.mTabs.length)
       aIndex = this.mTabs.length - 1;
 
-    if (aIndex == aTab._tPos)
+    if(aIndex == aTab._tPos)
       return;
   });
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
-    if (tab._tPos > this.mCurrentTab._tPos
-        && tab._tPos < this.mCurrentTab._tPos + this.mTabContainer._tabOffset)
+    if(tab._tPos > this.mCurrentTab._tPos &&
+       tab._tPos < this.mCurrentTab._tPos + this.mTabContainer._tabOffset)
       this.mTabContainer._tabOffset--;
   });
 
@@ -303,7 +363,7 @@ ntabimprovelite._tabClosingOptions = function() {
   //关闭标签页时选择左侧/右侧/第一个/最后一个标签
   TU_hookCode("_beginRemoveTab" in gBrowser ? "gBrowser._beginRemoveTab" : "gBrowser.removeTab", "{", "aTab.setAttribute('removing', true);");
   gBrowser._tabsToSelect = function _tabsToSelect(aTab) {
-    if (!aTab)
+    if(!aTab)
       aTab = this.mCurrentTab;
 
     if (aTab.owner && !aTab.owner.hasAttribute("removing") && TU_getPref("browser.tabs.selectOwnerOnClose")) {
@@ -367,7 +427,7 @@ ntabimprovelite._tabClosingOptions = function() {
   };
 
   gBrowser._blurTab = function _blurTab(aTab) {
-    if (aTab != this.mCurrentTab)
+    if(aTab != this.mCurrentTab)
       return this.mCurrentTab;
 
     try {
@@ -385,14 +445,14 @@ ntabimprovelite._tabClosingOptions = function() {
 
   //关闭标签页时选择亲属标签
   TU_hookCode("gBrowser.onTabOpen", "}", function() {
-    if (["sss_restoreWindow", "ssi_restoreWindow"].indexOf(tab.arguments.caller) == -1)
+    if(["sss_restoreWindow", "ssi_restoreWindow"].indexOf(tab.arguments.caller) == -1)
       tab.setAttribute("opener", this.mCurrentTab.linkedPanel);
   });
 
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
     var panelId = tab.linkedPanel;
     Array.forEach(this.mTabs, function(aTab) {
-      if (aTab.getAttribute("opener").indexOf(panelId) == 0)
+      if(aTab.getAttribute("opener").indexOf(panelId) == 0)
         aTab.setAttribute("opener", panelId + (+aTab.getAttribute("opener").slice(panelId.length) + 1));
     });
   });
@@ -402,7 +462,7 @@ ntabimprovelite._tabClosingOptions = function() {
   });
 
   gBrowser.isRelatedTab = function isRelatedTab(aTab, bTab) {
-    if (!bTab)
+    if(!bTab)
       bTab = this.mCurrentTab;
 
     return bTab.getAttribute("opener").indexOf(aTab.linkedPanel) == 0;
@@ -441,7 +501,7 @@ ntabimprovelite._tabClosingOptions = function() {
     for (var i = index > -1; i < tabHistory.length; i++) {
       var tab = tabHistory[index = aDir < 0 ? index + 1 : index - 1]
              || tabHistory[index = aDir < 0 ? 0 : tabHistory.length - 1];
-      if ((aAll || !tab.hidden) && !tab.hasAttribute("removing"))
+      if((aAll || !tab.hidden) && !tab.hasAttribute("removing"))
         return tab;
     }
     return null;
