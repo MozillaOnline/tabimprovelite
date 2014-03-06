@@ -35,6 +35,28 @@ var ntabimprovelite = {
     }, 100);
   },
 
+  logUsage: function ntabimprovelite__logUsage() {
+    try {
+      let self = this;
+
+      Cu.import("resource://cmtracking/ExtensionUsage.jsm", this);
+      this.ExtensionUsage.register("ntabimprove", "window:button",
+        "tabimprovelite@mozillaonline.com");
+
+      [
+        "extensions.ntabimprovelite.doubleClickPref",
+        "extensions.ntabimprovelite.middleClickPref",
+        "extensions.ntabimprovelite.rightClickPref",
+        "browser.tabs.loadDivertedInBackground"
+      ].forEach(function(aKey) {
+        let k = "pref:" + aKey;
+        let v = Application.prefs.has(aKey) &&
+                Application.prefs.get(aKey).modified;
+        self.ExtensionUsage.setState(k, v.toString(), "ntabimprove");
+      });
+    } catch(e) {};
+  },
+
   initNow: function ntabimprovelite__initNow() {
     if(this.initDone)
       return;
@@ -42,6 +64,9 @@ var ntabimprovelite = {
 
     this.init();
     this.installButton("ntabimprove");
+
+    this.logUsage();
+
     this.initUI();
     var toolbox = document.getElementById("navigator-toolbox");
     toolbox.addEventListener("aftercustomization", this, false)
