@@ -1,3 +1,4 @@
+/* vim: set ts=2 et sw=2 tw=80: */
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -7,40 +8,71 @@
  * Public License, v. 2.0. */
 if (typeof ceTabImproveLite == "undefined") {
   var ceTabImproveLite = {
+    strings: {
+      _bundle: Services.strings.createBundle('chrome://ntabimprovelite/locale/ntabimprovelite.properties'),
+      get: function(name, args) {
+        if (args) {
+          args = Array.prototype.slice.call(arguments, 1);
+          return this._bundle.formatStringFromName(name, args, args.length);
+        } else {
+          return this._bundle.GetStringFromName(name);
+        }
+      }
+    },
+
+    prefs: {
+      get doubleClick() {
+        return Application.prefs.getValue("extensions.ntabimprovelite.doubleClickPref", false);
+      },
+      set doubleClick(val) {
+        Application.prefs.setValue("extensions.ntabimprovelite.doubleClickPref", val);
+      },
+      get middleClick() {
+        return Application.prefs.getValue("extensions.ntabimprovelite.middleClickPref", false);
+      },
+      set middleClick(val) {
+        Application.prefs.setValue("extensions.ntabimprovelite.middleClickPref", val);
+      },
+      get rightClick() {
+        return Application.prefs.getValue("extensions.ntabimprovelite.rightClickPref", false);
+      },
+      set rightClick(val) {
+        Application.prefs.setValue("extensions.ntabimprovelite.rightClickPref", val);
+      },
+      get background() {
+        return Application.prefs.getValue("browser.tabs.loadDivertedInBackground", true);
+      },
+      set background(val) {
+        Application.prefs.setValue("browser.tabs.loadDivertedInBackground", val);
+      }
+    },
+
+    btns: [{
+      id: 'ntabimprove_closetab_dblclick',
+      pref: 'doubleClick'
+    }, {
+      id: 'ntabimprove_closetab_mclick',
+      pref: 'middleClick'
+    }, {
+      id: 'ntabimprove_closetab_rclick',
+      pref: 'rightClick'
+    }, {
+      id: 'ntabimprove_loadInBackground_disable',
+      pref: 'background',
+      inverted: true
+    }, {
+      id: 'ntabimprove_loadInBackground_enable',
+      pref: 'background'
+    }],
+
     onMenuItemCommand: function ntabimprovelite__onMenuItemCommand(e) {
       var features = "chrome,titlebar,toolbar,centerscreen,dialog=yes";
       window.openDialog("chrome://ntabimprovelite/content/preferences.xul", "Preferences", features);
     },
 
-    onpopupshowing: function ntabimprovelite__onpopupshowing() {
-      var dbl = Application.prefs.getValue("extensions.ntabimprovelite.doubleClickPref", false);
-      var m = Application.prefs.getValue("extensions.ntabimprovelite.middleClickPref", false);
-      var r = Application.prefs.getValue("extensions.ntabimprovelite.rightClickPref", false);
-      document.getElementById("ntabimprove_closetab_dblclick").setAttribute("checked", dbl ? "true" : "false");
-      document.getElementById("ntabimprove_closetab_mclick").setAttribute("checked", m ? "true" : "false");
-      document.getElementById("ntabimprove_closetab_rclick").setAttribute("checked", r ? "true" : "false");
-      var otbg = Application.prefs.getValue("browser.tabs.loadDivertedInBackground", true);
-      document.getElementById("ntabimprove_loadInBackground_disable").setAttribute("checked" , otbg ? "false" : "true");
-      document.getElementById("ntabimprove_loadInBackground_enable").setAttribute("checked" , otbg ? "true" : "false");
-    },
-
-    onpopuphiding: function ntabimprovelite__onpopuphiding() {
-      var dbl = (document.getElementById("ntabimprove_closetab_dblclick").getAttribute("checked") == "true")
-      Application.prefs.setValue("extensions.ntabimprovelite.doubleClickPref", dbl);
-      var m = (document.getElementById("ntabimprove_closetab_mclick").getAttribute("checked") == "true")
-      Application.prefs.setValue("extensions.ntabimprovelite.middleClickPref", m);
-      var r = (document.getElementById("ntabimprove_closetab_rclick").getAttribute("checked") == "true")
-      Application.prefs.setValue("extensions.ntabimprovelite.rightClickPref", r);
-      var otbg = (document.getElementById("ntabimprove_loadInBackground_enable").getAttribute("checked") == "true")
-      Application.prefs.setValue("browser.tabs.loadDivertedInBackground", otbg);
-
-      setTimeout(function() {
-        document.getElementById("ntabimprove_closetab_dblclick").removeAttribute("checked");
-        document.getElementById("ntabimprove_closetab_mclick").removeAttribute("checked");
-        document.getElementById("ntabimprove_closetab_rclick").removeAttribute("checked");
-        document.getElementById("ntabimprove_loadInBackground_disable").removeAttribute("checked");
-        document.getElementById("ntabimprove_loadInBackground_enable").removeAttribute("checked");
-      }, 100);
+    updatePref: function ntabimprovelite__updatePref(aBtn) {
+      this.btns.filter((btn) => btn.id == aBtn.id)
+               .forEach((btn) => this.prefs[btn.pref] = btn.inverted ? !aBtn.checked : aBtn.checked);
     },
 
     init: function ntabimprovelite__init() {
@@ -59,30 +91,36 @@ if (typeof ceTabImproveLite == "undefined") {
       return this._eTLDService = Cc["@mozilla.org/network/effective-tld-service;1"].getService(Ci.nsIEffectiveTLDService);
     },
 
-    installButton: function ntabimprovelite__installButton(buttonId, toolbarId) {
-      toolbarId = toolbarId || "addon-bar";
-      var key = "extensions.toolbarbutton.installed."+buttonId;
-      if (Application.prefs.getValue(key, false))
+    createButton: function ntabimprovelite__createButton(aId) {
+      let widget = CustomizableUI.getWidget(aId);
+      if (widget && widget.provider == CustomizableUI.PROVIDER_API) {
         return;
-
-      var toolbar = window.document.getElementById(toolbarId);
-      let curSet = toolbar.currentSet;
-      if (-1 == curSet.indexOf(buttonId)) {
-        let newSet = curSet + "," + buttonId;
-        toolbar.currentSet = newSet;
-        toolbar.setAttribute("currentset", newSet);
-        document.persist(toolbar.id, "currentset");
-        try {
-          BrowserToolboxCustomizeDone(true);
-        } catch(e) {}
       }
 
-      if (toolbar.getAttribute("collapsed") == "true") {
-        toolbar.setAttribute("collapsed", "false");
-      }
+      let migrationListener = {
+        onWidgetAdded: function(aWidgetId, aArea) {
+          if (aWidgetId == aId && aArea != CustomizableUI.AREA_ADDONBAR) {
+            CustomizableUI.removeListener(migrationListener);
+            let addonbar = document.getElementById(CustomizableUI.AREA_ADDONBAR);
+            if (addonbar && addonbar._currentSetMigrated.has(aId)) {
+              CustomizableUI.addWidgetToArea(aId, CustomizableUI.AREA_PANEL);
+              addonbar._currentSetMigrated.delete(aId);
+              addonbar._updateMigratedSet();
+            };
+          }
+        }
+      };
+      CustomizableUI.addListener(migrationListener);
 
-      document.persist(toolbar.id, "collapsed");
-      Application.prefs.setValue(key, true);
+      CustomizableUI.createWidget({
+        id: aId,
+        type: 'view',
+        viewId: 'PanelUI-ntabimprove-view',
+        defaultArea: CustomizableUI.AREA_PANEL,
+        label: this.strings.get('title'),
+        tooltiptext: this.strings.get('tooltip'),
+        onViewShowing: (aEvent) => this.initUI(aEvent)
+      });
     },
 
     bindPopup: function ntabimprovelite__bindPopup(buttonId, menuId) {
@@ -110,28 +148,35 @@ if (typeof ceTabImproveLite == "undefined") {
       return null;
     },
 
-    handleEvent: function ntabimprovelite__handleEvent(event) {
-      window.removeEventListener(event.type, this, false);
-      switch (event.type) {
+    handleEvent: function ntabimprovelite__handleEvent(aEvent) {
+      window.removeEventListener(aEvent.type, this, false);
+      switch (aEvent.type) {
         case "DOMContentLoaded":
           this.init();
           break;
         case "aftercustomization":
-          this.initUI();
+          this.initUI(aEvent);
           break;
       }
     },
 
-    onLoad: function ntabimprovelite__onLoad() {
+    onLoad: function ntabimprovelite__onLoad(aEvent) {
       window.addEventListener("DOMContentLoaded", this, false);
-      this.installButton("ntabimprove");
-      this.initUI();
+      this.createButton("ntabimprove");
+      this.initUI(aEvent);
       var toolbox = document.getElementById("navigator-toolbox");
       toolbox.addEventListener("aftercustomization", this, false);
     },
 
-    initUI: function ntabimprovelite__initUI() {
-      this.bindPopup("ntabimprove", "ntabimprove_Popup");
+    initUI: function ntabimprovelite__initUI(aEvent) {
+      // Use setTimeout() to avoid conflict
+      setTimeout(() => {
+        let doc = aEvent && aEvent.target && aEvent.target.ownerDocument || document;
+        this.btns.forEach((btn) => {
+          let pref = this.prefs[btn.pref];
+          doc.getElementById(btn.id).checked = btn.inverted ? !pref : pref;
+        });
+      }, 0);
     },
 
     _tabEventListeners: {
@@ -534,6 +579,6 @@ if (typeof ceTabImproveLite == "undefined") {
     },
   };
 
-  window.addEventListener("load", function() { ceTabImproveLite.onLoad(); }, false);
+  window.addEventListener("load", function(aEvent) { ceTabImproveLite.onLoad(aEvent); }, false);
 
 };

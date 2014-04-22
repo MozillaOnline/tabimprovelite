@@ -32,22 +32,16 @@
               oncommand="ceTabImproveLite.onMenuItemCommand();"/>
   </menupopup>
 
-  <toolbarpalette id="BrowserToolbarPalette">
-    <toolbarbutton id="ntabimprove" label="&NTabImproveLite.toolbarbutton.label;" type="button" tooltiptext="&NTabImproveLite.toolbarbutton.label;"
-                   class="toolbarbutton-1 toolbarbutton-ce" >
-    </toolbarbutton>
-  </toolbarpalette>
-  <popupset id="mainPopupSet">
-      <menupopup id="ntabimprove_Popup" onpopupshowing="ceTabImproveLite.onpopupshowing();" onpopuphiding="ceTabImproveLite.onpopuphiding()">
-        <menuitem id="ntabimprove_closetab_dblclick" label="&doubleClickPref.label; &closeTab;" type="checkbox" checked="true"/>
-        <menuitem id="ntabimprove_closetab_mclick" label="&middleClickPref.label; &closeTab;" type="checkbox" checked="true"/>
-        <menuitem id="ntabimprove_closetab_rclick" label="&rightClickPref.label; &closeTab;" type="checkbox" checked="true"/>
-        <menuseparator/>
-        <menuitem id="ntabimprove_loadInBackground_disable" label="&loadInBackground.disable.label;" type="radio" checked="true"/>
-        <menuitem id="ntabimprove_loadInBackground_enable" label="&loadInBackground.enable.label;" type="radio" checked="true"/>
-        <menuseparator/>
-        <menuitem id="ntabimprove_setting" label="&tuOptions.label;" oncommand="ceTabImproveLite.onMenuItemCommand();" />
-      </menupopup>
-  </popupset>
+  <panelmultiview id="PanelUI-multiView" mainViewId="PanelUI-mainView">
+    <panelview id="PanelUI-ntabimprove-view" flex="1" class="PanelUI-subView">
+      <toolbarbutton id="ntabimprove_closetab_dblclick" label="&doubleClickPref.label; &closeTab;" tooltiptext="&doubleClickPref.label; &closeTab;" class="subviewbutton" oncommand="ceTabImproveLite.updatePref(this);" type="checkbox"/>
+      <toolbarbutton id="ntabimprove_closetab_mclick" label="&middleClickPref.label; &closeTab;" tooltiptext="&middleClickPref.label; &closeTab;" class="subviewbutton" oncommand="ceTabImproveLite.updatePref(this);" type="checkbox"/>
+      <toolbarbutton id="ntabimprove_closetab_rclick" label="&rightClickPref.label; &closeTab;" tooltiptext="&rightClickPref.label; &closeTab;" class="subviewbutton" oncommand="ceTabImproveLite.updatePref(this);" type="checkbox"/>
+      <toolbarseparator/>
+      <toolbarbutton id="ntabimprove_loadInBackground_disable" label="&loadInBackground.disable.label;" tooltiptext="&loadInBackground.disable.label;" class="subviewbutton" oncommand="ceTabImproveLite.updatePref(this);" type="radio" group="ntabimprove_group_background"/>
+      <toolbarbutton id="ntabimprove_loadInBackground_enable" label="&loadInBackground.enable.label;" tooltiptext="&loadInBackground.enable.label;" class="subviewbutton" oncommand="ceTabImproveLite.updatePref(this);" type="radio" group="ntabimprove_group_background"/>
+      <toolbarseparator/>
+      <toolbarbutton id="ntabimprove_setting" label="&tuOptions.label;" tooltiptext="&tuOptions.label;" class="subviewbutton" oncommand="ceTabImproveLite.onMenuItemCommand();" />
+    </panelview>
+  </panelmultiview>
 </overlay>
-

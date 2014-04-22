@@ -1,5 +1,7 @@
 content   ntabimprovelite                 chrome/content/
 skin      ntabimprovelite   classic/1.0   chrome/skin/
+skin      ntabimprovelite-os   classic/1.0   chrome/skin/
+skin      ntabimprovelite-os   classic/1.0   chrome/skin/mac/  os=Darwin
 
 locale    ntabimprovelite   zh-TW         chrome/locale/zh-TW/
 locale    ntabimprovelite   zh-CN         chrome/locale/zh-CN/
@@ -10,5 +12,3 @@ overlay   chrome://ybookmarks/content/ybsidebar.xul                 chrome://nta
 overlay   chrome://bookmarktags/content/tagBrowserSidebar.xul       chrome://ntabimprovelite/content/placesOverlay.xul
 overlay   chrome://browser/content/preferences/tabs.xul             chrome://ntabimprovelite/content/tabs.xul
 style     chrome://global/content/customizeToolbar.xul              chrome://ntabimprovelite/skin/ntabimprovelite.css
-
-override  chrome://ntabimprovelite/skin/ce-Toolbar.png         chrome://ntabimprovelite/skin/ce-Toolbar-mac.png  os=Darwin
