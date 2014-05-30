@@ -17,7 +17,7 @@ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
     <em:creator>Mozilla Online</em:creator>
     <em:homepageURL>http://www.firefox.com.cn/</em:homepageURL>
     <em:optionsURL>chrome://ntabimprovelite/content/preferences.xul</em:optionsURL>
-    <em:iconURL>chrome://ntabimprovelite/skin/logo.png</em:iconURL>
+    <em:iconURL>chrome://ntabimprovelite/skin/logo32.png</em:iconURL>
 
     <em:targetApplication>
       <Description>
