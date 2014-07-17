@@ -6,6 +6,12 @@
  * Secondary Licenses”, as defined by the Mozilla
  * Public License, v. 2.0. */
 
+/* effectively revert https://bugzil.la/951618 */
+.tabbrowser-tabs > tab:only-of-type > * > * > .tab-close-button:not([pinned]) {
+  display: -moz-box;
+  visibility: hidden;
+}
+
 #ntabimprove{
   list-style-image: url(chrome://ntabimprovelite-os/skin/icon16.png) !important;
 }
