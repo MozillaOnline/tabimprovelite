@@ -160,8 +160,16 @@ if (typeof ceTabImproveLite == "undefined") {
       }
     },
 
+    // Read localized string and set pref with converted int value.
+    setDefaultPrefs: function() {
+      let clickMarkAndHistoryPref = this.strings.get('clickMarkAndHistoryPref');
+      gPrefService.getDefaultBranch('extensions.ntabimprovelite.')
+                  .setIntPref('clickMarkAndHistoryPref', Number(clickMarkAndHistoryPref));
+    },
+
     onLoad: function ntabimprovelite__onLoad(aEvent) {
       window.addEventListener("DOMContentLoaded", this, false);
+      this.setDefaultPrefs();
       this.createButton("ntabimprove");
       this.initUI(aEvent);
       var toolbox = document.getElementById("navigator-toolbox");
