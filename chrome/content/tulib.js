@@ -34,6 +34,11 @@ function TU_hookMethod(aStr) {
 }
 
 function TU_hookFunc(aFunc) {
+  // FIXME A temp solution to solve the compatibility issue with IETab V2.
+  if (aFunc.parentFunction) {
+    aFunc = aFunc.parentFunction;
+  }
+
   var myCode = aFunc.toString();
   for (var i = 1; i < arguments.length;) {
     if (arguments[i].constructor.name == "Array") {
