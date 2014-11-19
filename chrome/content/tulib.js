@@ -56,6 +56,10 @@ function TU_hookFunc(aFunc) {
 
     myCode = myCode.replace(orgCode, newCode);
   }
+
+  // in case aFunc is already patched by Omnibar;
+  let O = window.O || window.Omnibar || {};
+
   return eval("(" + myCode + ")");
 }
 
