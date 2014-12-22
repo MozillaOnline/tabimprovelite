@@ -27,7 +27,7 @@ function TU_hookMethod(aStr) {
       throw TypeError(aStr + " is not a function");
 
     // FIXME A temp solution to solve the compatibility issue with FastDial
-    if (aStr == "gBrowser.addTab" && Fd && Fd.hookAddTab && Fd.addTab) {
+    if (aStr == "gBrowser.addTab" && window.Fd && Fd.hookAddTab && Fd.addTab) {
       return Fd.addTab = TU_hookFunc.apply(this, Array.concat(Fd.addTab, Array.slice(arguments, 1)));
     }
 

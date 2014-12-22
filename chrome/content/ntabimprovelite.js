@@ -523,67 +523,49 @@ if (typeof ceTabImproveLite == "undefined") {
     },
 
     _sendStats: function() {
-      // getDataChoices
-      if(! Application.prefs.getValue("extensions.tpmanager.tracking.enabled",false))
-        return;
+      try {
+        let tracker = Cc["@mozilla.com.cn/tracking;1"].
+          getService().wrappedJSObject;
 
-      var usageSampleKey = 'extensions.ntabimprovelite.usageSample';
-      var prefBranch =
-          Components.classes['@mozilla.org/preferences-service;1']
-                    .getService(Components.interfaces.nsIPrefBranch);
-      if (prefBranch.prefHasUserValue(usageSampleKey)) {
-        return;
-      }
-
-      var random = Math.random();
-      prefBranch.setCharPref(usageSampleKey, random);
-      if (random >= 0.01) {
-        return;
-      }
-
-      var sample = 0;
-      ['extensions.ntabimprovelite.openHomepageInTab',
-       'extensions.ntabimprovelite.openTabNext',
-       'extensions.ntabimprovelite.openTabNext.keepOrder',
-       'extensions.ntabimprovelite.openExternalInTab',
-       'browser.tabs.insertRelatedAfterCurrent',
-       'browser.tabs.selectOwnerOnClose',
-       'browser.tabs.loadDivertedInBackground',
-       'extensions.ntabimprovelite.locationInputPref',
-       'extensions.ntabimprovelite.searchInputPref',
-       'extensions.ntabimprovelite.clickMarkAndHistoryPref',
-       'extensions.ntabimprovelite.closeTabreturnPref',
-       'extensions.ntabimprovelite.doubleClickPref',
-       'extensions.ntabimprovelite.middleClickPref',
-       'extensions.ntabimprovelite.rightClickPref',
-       'extensions.ntabimprovelite.closeLastTabPref'].forEach(function(prefKey) {
-        var val = 0;
-        if (prefBranch.prefHasUserValue(prefKey)) {
-          switch (prefBranch.getPrefType(prefKey)) {
-            case prefBranch.PREF_BOOL:
-              val = prefBranch.getBoolPref(prefKey) ? 1 : 0;
-              break;
-            case prefBranch.PREF_INT:
-              val = prefBranch.getIntPref(prefKey);
-              break;
-            default:
-              break;
-          }
-          val += 1;
+        let locale = Cc["@mozilla.org/chrome/chrome-registry;1"].
+          getService(Ci.nsIXULChromeRegistry).
+          getSelectedLocale("ntabimprovelite");
+        if (locale !== 'zh-CN') {
+          return;
         }
-        sample += val;
-        sample *= 10;
-      });
 
-      var prefKey = 'extensions.ntabimprovelite.selectOnClose';
-      if (prefBranch.prefHasUserValue(prefKey)) {
-        sample += Math.log(prefBranch.getIntPref(prefKey)) / Math.log(2) + 1;
-      }
+        let trackKey = 'extensions.ntabimprovelite.trackCustomized';
+        if (!Application.prefs.getValue(trackKey, true)) {
+          return;
+        }
 
-      var img = new Image();
-      img.src = 'http://adu.myfirefox.com.tw/addons/tabimprovelite.gif'
-                + '?r=' + Math.random()
-                + '&sample=' + sample;
+        let prefs = {
+          "extensions.ntabimprovelite.openHomepageInTab": [false],
+          "extensions.ntabimprovelite.openTabNext.keepOrder": [false],
+          "extensions.ntabimprovelite.selectOnClose": [64],
+          "extensions.ntabimprovelite.openExternalInTab": [false],
+          "browser.tabs.selectOwnerOnClose": [false],
+          "browser.tabs.loadDivertedInBackground": [false],
+          "extensions.ntabimprovelite.locationInputPref": [1],
+          "extensions.ntabimprovelite.searchInputPref": [2],
+          "extensions.ntabimprovelite.clickMarkAndHistoryPref": [2],
+          "extensions.ntabimprovelite.closeTabreturnPref": [1],
+          "extensions.ntabimprovelite.doubleClickPref": [true],
+          "extensions.ntabimprovelite.middleClickPref": [true],
+          "extensions.ntabimprovelite.rightClickPref": [false],
+          "extensions.ntabimprovelite.closeLastTabPref": [true],
+        };
+
+        let customized = Object.keys(prefs).some(function(aPrefKey) {
+          let val = Application.prefs.getValue(aPrefKey, prefs[aPrefKey][0]);
+          return prefs[aPrefKey].indexOf(val) < 0;
+        }) ? 1 : 0;
+
+        let url = "http://addon.g-fox.cn/tabimprove.gif?customized=";
+        url += customized;
+        tracker.send(url);
+        Application.prefs.setValue(trackKey, false);
+      } catch(e) {};
     },
   };
 
