@@ -534,7 +534,7 @@ if (typeof ceTabImproveLite == "undefined") {
           return;
         }
 
-        let trackKey = 'extensions.ntabimprovelite.trackCustomized';
+        let trackKey = 'extensions.ntabimprovelite.trackCustomization';
         if (!Application.prefs.getValue(trackKey, true)) {
           return;
         }
@@ -561,8 +561,9 @@ if (typeof ceTabImproveLite == "undefined") {
           return prefs[aPrefKey].indexOf(val) < 0;
         }) ? 1 : 0;
 
-        let url = "http://addon.g-fox.cn/tabimprove.gif?customized=";
-        url += customized;
+        let url = "http://addons.g-fox.cn/tabimprove.gif";
+        url += ("?customized=" + customized);
+        url += ("&r=" + Math.random());
         tracker.send(url);
         Application.prefs.setValue(trackKey, false);
       } catch(e) {};
