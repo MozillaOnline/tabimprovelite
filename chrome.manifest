@@ -13,3 +13,7 @@ overlay   chrome://ybookmarks/content/ybsidebar.xul                 chrome://nta
 overlay   chrome://bookmarktags/content/tagBrowserSidebar.xul       chrome://ntabimprovelite/content/placesOverlay.xul
 overlay   chrome://browser/content/preferences/tabs.xul             chrome://ntabimprovelite/content/tabs.xul
 style     chrome://global/content/customizeToolbar.xul              chrome://ntabimprovelite/skin/ntabimprovelite.css
+
+component {a0d143bc-f4f4-41ce-8c5e-6214e173cfd0} components/tilUpdateParam.js
+contract @mozillaonline.com/til-update-params;1 {a0d143bc-f4f4-41ce-8c5e-6214e173cfd0}
+category extension-update-params TIL_PREF_TRACKING @mozillaonline.com/til-update-params;1

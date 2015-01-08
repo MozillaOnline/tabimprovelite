@@ -83,7 +83,6 @@ if (typeof ceTabImproveLite == "undefined") {
       this._openLinkInTab();
       this._tabOpeningOptions();
       this._tabClosingOptions();
-      this._sendStats();
     },
 
     get _eTLDService() {
@@ -520,54 +519,7 @@ if (typeof ceTabImproveLite == "undefined") {
       if (!TU_getPref("extensions.ntabimprovelite.closeLastTabPref", false)) {
         gPrefService.setBoolPref("browser.tabs.closeWindowWithLastTab", true);
       }
-    },
-
-    _sendStats: function() {
-      try {
-        let tracker = Cc["@mozilla.com.cn/tracking;1"].
-          getService().wrappedJSObject;
-
-        let locale = Cc["@mozilla.org/chrome/chrome-registry;1"].
-          getService(Ci.nsIXULChromeRegistry).
-          getSelectedLocale("ntabimprovelite");
-        if (locale !== 'zh-CN') {
-          return;
-        }
-
-        let trackKey = 'extensions.ntabimprovelite.trackCustomization';
-        if (!Application.prefs.getValue(trackKey, true)) {
-          return;
-        }
-
-        let prefs = {
-          "extensions.ntabimprovelite.openHomepageInTab": [false],
-          "extensions.ntabimprovelite.openTabNext.keepOrder": [false],
-          "extensions.ntabimprovelite.selectOnClose": [64],
-          "extensions.ntabimprovelite.openExternalInTab": [false],
-          "browser.tabs.selectOwnerOnClose": [false],
-          "browser.tabs.loadDivertedInBackground": [false],
-          "extensions.ntabimprovelite.locationInputPref": [1],
-          "extensions.ntabimprovelite.searchInputPref": [2],
-          "extensions.ntabimprovelite.clickMarkAndHistoryPref": [2],
-          "extensions.ntabimprovelite.closeTabreturnPref": [1],
-          "extensions.ntabimprovelite.doubleClickPref": [true],
-          "extensions.ntabimprovelite.middleClickPref": [true],
-          "extensions.ntabimprovelite.rightClickPref": [false],
-          "extensions.ntabimprovelite.closeLastTabPref": [true],
-        };
-
-        let customized = Object.keys(prefs).some(function(aPrefKey) {
-          let val = Application.prefs.getValue(aPrefKey, prefs[aPrefKey][0]);
-          return prefs[aPrefKey].indexOf(val) < 0;
-        }) ? 1 : 0;
-
-        let url = "http://addons.g-fox.cn/tabimprove.gif";
-        url += ("?customized=" + customized);
-        url += ("&r=" + Math.random());
-        tracker.send(url);
-        Application.prefs.setValue(trackKey, false);
-      } catch(e) {};
-    },
+    }
   };
 
   window.addEventListener("load", function(aEvent) { ceTabImproveLite.onLoad(aEvent); }, false);
