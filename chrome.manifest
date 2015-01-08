@@ -2,7 +2,7 @@ content   ntabimprovelite                 chrome/content/
 skin      ntabimprovelite   classic/1.0   chrome/skin/
 skin      ntabimprovelite-os   classic/1.0   chrome/skin/
 skin      ntabimprovelite-os   classic/1.0   chrome/skin/mac/  os=Darwin
-skin      ntabimprovelite-os   classic/1.0   chrome/skin/mac/yosemite/  os=Darwin osversion>=10.10
+skin      ntabimprovelite-os   classic/1.0   chrome/skin/mac/yosemite/  os=Darwin osversion>=10.10 appversion>=34.0
 
 locale    ntabimprovelite   zh-TW         chrome/locale/zh-TW/
 locale    ntabimprovelite   zh-CN         chrome/locale/zh-CN/
