@@ -17,6 +17,7 @@ function getCustomized() {
     "extensions.ntabimprovelite.openTabNext.keepOrder": [false],
     "extensions.ntabimprovelite.selectOnClose": [64],
     "extensions.ntabimprovelite.openExternalInTab": [false],
+    "browser.tabs.insertRelatedAfterCurrent": [true],
     "browser.tabs.selectOwnerOnClose": [false],
     "browser.tabs.loadDivertedInBackground": [false],
     "extensions.ntabimprovelite.locationInputPref": [1],
