@@ -188,7 +188,9 @@ if (typeof ceTabImproveLite == "undefined") {
 
     _tabEventListeners: {
       init: function() {
-        TU_hookCode("gBrowser.addTab",
+        // Fix bug 2231. COBA also hooks gBrowser.addTab function
+        let aStr = window.COBA && COBA.origAddTab ? "COBA.origAddTab" : "gBrowser.addTab";
+        TU_hookCode(aStr,
           ["{", "if (!aURI) aURI = 'about:blank';"],
           [/(?=.*dispatchEvent.*)/, function() {
             var caller = Components.stack.caller;
@@ -315,7 +317,8 @@ if (typeof ceTabImproveLite == "undefined") {
     _tabOpeningOptions: function() {
       // 在当前标签页的右侧打开新标签页
       // 连续打开后台标签时保持原有顺序
-      TU_hookCode("gBrowser.addTab",
+      let aStr = window.COBA && COBA.origAddTab ? "COBA.origAddTab" : "gBrowser.addTab";
+      TU_hookCode(aStr,
         [/\S*insertRelatedAfterCurrent\S*(?=\))/, "false"],
         [/(?=(return t;)(?![\s\S]*\1))/, function() {
           if (["sss_restoreWindow", "ssi_restoreWindow"].indexOf(t.arguments.caller) == -1 && !t.hasAttribute("pinned") && function() {
@@ -341,7 +344,6 @@ if (typeof ceTabImproveLite == "undefined") {
           }
         }]
       );
-
       TU_hookCode("gBrowser.moveTabTo", "{", function() {
         if (aIndex < 0)
           aIndex = 0;
